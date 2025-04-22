@@ -39,7 +39,7 @@ public class GameWorld : Game
         {0,1,1,1,1,1,1,1,1,0},
         {0,0,0,0,0,0,0,0,0,0}
     };
-    private int tileSize = 64;
+    private int tileSize = 32;
 
     //Liste over GameObjects
     public List<GameObject> GameObjects { get; private set; } = new List<GameObject>();
@@ -61,7 +61,7 @@ public class GameWorld : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+        GameWorld.Instance.CreateLevel();
     }
 
     protected override void Update(GameTime gameTime)
@@ -114,7 +114,7 @@ public class GameWorld : Game
                 switch (tileType)
                 {
                     case 0: // Water
-                        CreateTile(position, "waterTile");
+                        CreateTile(position, "Assets/Sprites/Tilesets/Water");
                         break;
 
                     case 1: // Soil - DirtState (grass)
@@ -134,7 +134,7 @@ public class GameWorld : Game
         var tileObject = new GameObject();
         tileObject.Transform.Position = position;
         var sr = tileObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
-        sr.SetSprite(spriteName);
+        sr.SetSprite(spriteName,new Rectangle(0,0,32,32));
         GameObjects.Add(tileObject);
     }
 
@@ -142,6 +142,7 @@ public class GameWorld : Game
     {
         var soilObject = new GameObject();
         soilObject.Transform.Position = position;
+        var sr = soilObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
         var soil = soilObject.AddComponent<Soil>() as Soil;
         soil.SetState(initialState);
         GameObjects.Add(soilObject);

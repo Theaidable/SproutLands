@@ -8,9 +8,9 @@ namespace SproutLands.Classes.StatePattern.SoilState.SoilStates
     {
         public void OnEnter(Soil soil)
         {
-            var sr = soil.GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-            Rectangle grassSourceRect = new Rectangle(0, 0, 32, 32);
-            sr.SetSprite("Assets/Sprites/Tilesets/Grass", grassSourceRect);
+            var sr = soil.GameObject.GetComponent<SpriteRenderer>();
+            Rectangle grassSourceRect = new Rectangle(5, 100, 32, 32);
+            sr.SetSprite("Assets/Sprites/Tilesets/Tilled_Dirt", grassSourceRect);
         }
 
         public void Update(Soil soil) { }

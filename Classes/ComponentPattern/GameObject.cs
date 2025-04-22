@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
 using SproutLands.Classes.ComponentPattern.Colliders;
+using System.Linq;
 
 namespace SproutLands.Classes.ComponentPattern
 {
@@ -60,7 +61,7 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
-        public Component AddComponent<T>(params object[] additionalParameters) where T : Component
+        public T AddComponent<T>(params object[] additionalParameters) where T : Component
         {
             Type componentType = typeof(T);
             try
@@ -80,9 +81,9 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
-        public Component GetComponent<T>() where T : Component
+        public T GetComponent<T>() where T : Component
         {
-            return components.Find(x => x.GetType() == typeof(T));
+            return components.OfType<T>().FirstOrDefault();
         }
 
         public Component AddComponentWithExistingValues(Component component)

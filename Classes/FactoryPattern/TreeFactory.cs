@@ -27,7 +27,7 @@ namespace SproutLands.Classes.FactoryPattern
         {
             var treeObject = new GameObject();
             treeObject.Transform.Position = position;
-            var sr = treeObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
+            var sr = treeObject.AddComponent<SpriteRenderer>();
             Rectangle treeSourceRect = new Rectangle(0, 0, 32, 32);
             treeObject.AddComponent<Collider>();
             treeObject.AddComponent<Tree>();
