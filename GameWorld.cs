@@ -11,6 +11,8 @@ public class GameWorld : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private static GameWorld instance;
+    private List<Tree> _trees;
+    private Texture2D _treeTexture;
 
     //Oprettelse af Singleton af GameWorld
     public static GameWorld Instance
