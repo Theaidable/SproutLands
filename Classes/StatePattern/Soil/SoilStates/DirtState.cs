@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SproutLands.Classes.ComponentPattern.Collider
+namespace SproutLands.Classes.StatePattern.Soil.SoilStates
 {
-    class Collider
+    internal class DirtState
     {
     }
 }

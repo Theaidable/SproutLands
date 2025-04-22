@@ -10,11 +10,23 @@ public class GameWorld : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private static GameWorld instance;
 
-    private Texture2D _treeTexture;
-    private List<Tree> _trees;
+    //Oprettelse af Singleton af GameWorld
+    public static GameWorld Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameWorld();
+            }
+            return instance;
+        }
+    }
 
-    public GameWorld()
+    //Private Constructor, da vi gøre brug af singleton
+    private GameWorld()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
