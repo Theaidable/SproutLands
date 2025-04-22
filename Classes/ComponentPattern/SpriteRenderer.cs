@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace SproutLands.Classes.ComponentPattern
 {
-    class SpriteRenderer : Component
+    public class SpriteRenderer : Component
     {
         public Vector2 Origin { get; set; }
         public Texture2D Sprite { get; set; }
@@ -23,7 +23,7 @@ namespace SproutLands.Classes.ComponentPattern
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Sprite, gameObject.Transform.Position, null, Color, gameObject.Transform.Rotation, Origin, gameObject.Transform.Scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Sprite, GameObject.Transform.Position, null, Color, GameObject.Transform.Rotation, Origin, GameObject.Transform.Scale, SpriteEffects.None, 0);
 
         }
     }

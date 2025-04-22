@@ -8,12 +8,13 @@ namespace SproutLands.Classes.ComponentPattern
     public abstract class Component
     {
         //Property
-        public GameObject gameObject { get; private set; }
+        public GameObject GameObject { get; private set; }
+        public Transform Transform => GameObject.Transform;
 
         //Constructor
         public Component(GameObject gameObject)
         {
-            this.gameObject = gameObject;
+            this.GameObject = gameObject;
         }
 
         public virtual void Awake()
@@ -39,7 +40,7 @@ namespace SproutLands.Classes.ComponentPattern
 
         public void SetNewGameObject(GameObject gameObject)
         {
-            this.gameObject = gameObject;
+            this.GameObject = gameObject;
         }
     }
 }

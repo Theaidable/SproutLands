@@ -15,6 +15,11 @@ namespace SproutLands.Classes.ComponentPattern
         //Property
         public Transform Transform { get; private set; }
 
+        public GameObject()
+        {
+            Transform = (Transform)AddComponent<Transform>();
+        }
+
         public void Awake()
         {
             foreach (var component in components)
@@ -69,11 +74,9 @@ namespace SproutLands.Classes.ComponentPattern
                 components.Add(component);
                 return component;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Håndter tilfælde, hvor der ikke er en passende konstruktør
-                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en " +
-                    "konstruktør, der matcher de leverede parametre.");
+                throw new InvalidOperationException($"Fejl ved oprettelse af komponenten {componentType.Name}: {ex.Message}", ex);
             }
         }
 

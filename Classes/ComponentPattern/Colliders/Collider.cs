@@ -20,7 +20,7 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
         }
         public override void Start()
         {
-            spriteRenderer = gameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
+            spriteRenderer = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
             pixel = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
             pixelPerfectRectangles = new Lazy<List<RectangleData>>(() => CreateRectangles());
         }
@@ -29,8 +29,8 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
             get
             {
                 return new Rectangle(
-                    (int)(gameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
-                    (int)(gameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
+                    (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
+                    (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
                     spriteRenderer.Sprite.Width,
                     spriteRenderer.Sprite.Height);
             }
@@ -74,13 +74,14 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
         {
             for (int i = 0; i < pixelPerfectRectangles.Value.Count; i++)
             {
-                pixelPerfectRectangles.Value[i].UpdatePosition(gameObject, spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
+                pixelPerfectRectangles.Value[i].UpdatePosition(GameObject, spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
             }
         }
         public void ToggleDrawing(bool shouldDraw)
         {
             this.shouldDraw = shouldDraw;
         }
+
         private List<RectangleData> CreateRectangles()
         {
             List<Color[]> lines = new List<Color[]>();
