@@ -20,8 +20,8 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
         }
         public override void Start()
         {
-            spriteRenderer = GameObject.GetComponent<SpriteRenderer>() as SpriteRenderer;
-            pixel = GameWorld.Instance.Content.Load<Texture2D>("Pixel");
+            spriteRenderer = GameObject.GetComponent<SpriteRenderer>();
+            pixel = GameWorld.Instance.Content.Load<Texture2D>("Assets/Collider/Pixel");
             pixelPerfectRectangles = new Lazy<List<RectangleData>>(() => CreateRectangles());
         }
         public Rectangle CollisionBox

@@ -49,13 +49,13 @@ namespace SproutLands.Classes.FactoryPattern
             switch (type)
             {
                 case TreeType.Tree1:
-                    _sourceRect = new Rectangle(0, 250, 64, 64);
+                    _sourceRect = new Rectangle(-60, -3, 130, 130);
                     break;
                 case TreeType.Tree2:
-                    _sourceRect = new Rectangle(32, 250, 64, 64);
+                    _sourceRect = new Rectangle(70, -1, 130, 130);
                     break;
                 case TreeType.Tree3:
-                    _sourceRect = new Rectangle(32, 250, 64, 64);
+                    _sourceRect = new Rectangle(185, 0, 130, 130);
                     break;
             }
 

@@ -182,13 +182,22 @@ public class GameWorld : Game
                 }
 
                 // Højre hjørne:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(29 * 32, 2 * 32), TreeType.Apple));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(25 * 64, 2 * 64), TreeType.Tree1));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(26 * 64, 3 * 64), TreeType.Tree1));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(24 * 64, 3 * 64), TreeType.Tree1));
 
                 // Venstre hjørne:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(1 * 32, 2 * 32), TreeType.Pine));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(3 * 64, 12 * 64), TreeType.Tree2));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(4 * 64, 13 * 64), TreeType.Tree2));
 
                 // Midten:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 32, 8 * 32), TreeType.Oak));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
+
+                    foreach (var go in GameObjects)
+    {
+        go.Awake();
+        go.Start();
+    }
             }
         }
     }
