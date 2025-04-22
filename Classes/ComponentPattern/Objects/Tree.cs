@@ -16,11 +16,13 @@ namespace SproutLands.Classes.ComponentPattern.Objects
         public int ResourceAmount { get; private set; }
         private Texture2D _texture;
         private Vector2 _position;
+        private Rectangle _sourceRectangle;
 
-        public Tree(Texture2D texture, Vector2 position, int health = 100, string resourceType = "Wood", int resourceAmount = 5)
+        public Tree(Texture2D texture, Vector2 position, Rectangle sourceRectangle, int health = 100, string resourceType = "Wood", int resourceAmount = 5)
         {
             _texture = texture;
             _position = position;
+            _sourceRectangle = sourceRectangle;
             Health = health;
             ResourceType = resourceType;
             ResourceAmount = resourceAmount;
@@ -61,7 +63,7 @@ namespace SproutLands.Classes.ComponentPattern.Objects
         {
             if (!IsChopped)
             {
-                spriteBatch.Draw(_texture, _position, Color.White);
+                spriteBatch.Draw(_texture, _position, _sourceRectangle, Color.White);
             }
         }
     }

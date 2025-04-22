@@ -24,10 +24,10 @@ public class GameWorld : Game
     protected override void Initialize()
     {
         _trees = new List<Tree>
-        {
-            new Tree(null, new Vector2(100, 100)), // Placeholder position
-            new Tree(null, new Vector2(200, 150))  // Placeholder position
-        };
+    {
+        new Tree(null, new Vector2(100, 100), new Rectangle(0, 0, 32, 32)), // Example frame
+        new Tree(null, new Vector2(200, 150), new Rectangle(32, 0, 32, 32)) // Another frame
+    };
 
         base.Initialize();
     }
