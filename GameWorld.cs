@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SproutLands.Classes.ComponentPattern.Objects;
+using System.Collections.Generic;
 
 namespace SproutLands;
 
@@ -8,6 +10,9 @@ public class GameWorld : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private Texture2D _treeTexture;
+    private List<Tree> _trees;
 
     public GameWorld()
     {
@@ -18,6 +23,11 @@ public class GameWorld : Game
 
     protected override void Initialize()
     {
+        _trees = new List<Tree>
+        {
+            new Tree(null, new Vector2(100, 100)), // Placeholder position
+            new Tree(null, new Vector2(200, 150))  // Placeholder position
+        };
 
         base.Initialize();
     }
@@ -26,6 +36,14 @@ public class GameWorld : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        // Load the tree texture
+        _treeTexture = Content.Load<Texture2D>("/Assets/Sprites/Objects/Basic_Grass_Biom_things");
+
+        // Assign the texture to each tree
+        foreach (var tree in _trees)
+        {
+            tree.SetTexture(_treeTexture);
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -33,6 +51,18 @@ public class GameWorld : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        // Handle player interaction with trees
+        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+        {
+            var mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            foreach (var tree in _trees)
+            {
+                if (tree.ContainsPoint(mousePosition))
+                {
+                    tree.Interact();
+                }
+            }
+        }
 
         base.Update(gameTime);
     }
@@ -40,7 +70,16 @@ public class GameWorld : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
-      
+
+        _spriteBatch.Begin();
+
+        // Draw all trees
+        foreach (var tree in _trees)
+        {
+            tree.Draw(_spriteBatch);
+        }
+
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
