@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SproutLands.Classes.StatePattern
+namespace SproutLands.Classes.StatePattern.Soil
 {
-    interface ICropState
+    internal interface ISoilState
     {
     }
 }
