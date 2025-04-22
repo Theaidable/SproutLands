@@ -8,8 +8,23 @@ public class GameWorld : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private static GameWorld instance;
 
-    public GameWorld()
+    //Oprettelse af Singleton af GameWorld
+    public static GameWorld Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new GameWorld();
+            }
+            return instance;
+        }
+    }
+
+    //Private Constructor, da vi gøre brug af singleton
+    private GameWorld()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
