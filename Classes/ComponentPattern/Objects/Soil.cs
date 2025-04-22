@@ -14,7 +14,6 @@ namespace SproutLands.Classes.ComponentPattern.Objects
 
         public Soil(GameObject gameObject) : base(gameObject)
         {
-            SetState(new DirtState());
         }
 
         public void SetState(ISoilState newState)

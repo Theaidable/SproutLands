@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.ComponentPattern;
 using SproutLands.Classes.ComponentPattern.Objects;
+using SproutLands.Classes.FactoryPattern;
 using SproutLands.Classes.StatePattern.SoilState;
 using SproutLands.Classes.StatePattern.SoilState.SoilStates;
 using System.Collections.Generic;
@@ -32,17 +33,32 @@ public class GameWorld : Game
     //Simpelt map layout
     private int[,] tileMap =
     {
-        {0,0,0,0,0,0,0,0,0,0},
-        {0,1,1,1,1,1,1,1,1,0},
-        {0,1,1,1,1,2,2,1,1,0},
-        {0,1,1,1,1,2,2,1,1,0},
-        {0,1,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,0,0,0,0}
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,2,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,5,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,8,0},
+        {0,6,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,01,8,0},
+        {0,6,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,6,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,8,0},
+        {0,3,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,4,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    private int tileSize = 32;
+    private int tileSize = 64;
 
     //Liste over GameObjects
     public List<GameObject> GameObjects { get; private set; } = new List<GameObject>();
+
+    //Deltatime property
+    public float DeltaTime { get; private set; }
 
     //Private Constructor, da vi gøre brug af singleton
     private GameWorld()
@@ -50,6 +66,10 @@ public class GameWorld : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        _graphics.PreferredBackBufferWidth = tileSize * 30;
+        _graphics.PreferredBackBufferHeight = tileSize * 18;
+        _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
@@ -61,7 +81,7 @@ public class GameWorld : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        GameWorld.Instance.CreateLevel();
+        CreateLevel();
     }
 
     protected override void Update(GameTime gameTime)
@@ -69,11 +89,7 @@ public class GameWorld : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // Handle player interaction with trees
-        if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-        {
-            var mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-        }
+        DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         foreach (var obj in GameObjects)
         {
@@ -85,7 +101,7 @@ public class GameWorld : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(new Color(155,212,195));
 
         _spriteBatch.Begin();
 
@@ -118,13 +134,61 @@ public class GameWorld : Game
                         break;
 
                     case 1: // Soil - DirtState (grass)
-                        CreateSoilTile(position, new DirtState());
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt1));
                         break;
 
-                    case 2: // Soil - PreparedState (earth)
-                        CreateSoilTile(position, new PreparedState());
+                    case 2: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt2));
+                        break;
+
+                    case 3: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt3));
+                        break;
+
+                    case 4: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt4));
+                        break;
+
+                    case 5: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt5));
+                        break;
+
+                    case 6: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt6));
+                        break;
+
+                    case 7: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt7));
+                        break;
+
+                    case 8: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt8));
+                        break;
+
+                    case 9: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt9));
+                        break;
+                    case 10: // Soil - DirtState (grass)
+                        CreateSoilTile(position, new DirtState(DirtType.Dirt10));
+                        break;
+
+                    case 11: // Soil - PreparedState (earth)
+                        CreateSoilTile(position, new PreparedState(PreparedType.Prepared1));
+                        break;
+
+                    case 12: // Soil - PreparedState (earth)
+                        CreateSoilTile(position, new PreparedState(PreparedType.Prepared2));
                         break;
                 }
+
+                // Højre hjørne:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(29 * 32, 2 * 32), TreeType.Apple));
+
+                // Venstre hjørne:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(1 * 32, 2 * 32), TreeType.Pine));
+
+                // Midten:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 32, 8 * 32), TreeType.Oak));
             }
         }
     }
@@ -133,8 +197,8 @@ public class GameWorld : Game
     {
         var tileObject = new GameObject();
         tileObject.Transform.Position = position;
-        var sr = tileObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
-        sr.SetSprite(spriteName,new Rectangle(0,0,32,32));
+        var sr = tileObject.AddComponent<SpriteRenderer>();
+        sr.SetSprite(spriteName,new Rectangle(0,0,64,64));
         GameObjects.Add(tileObject);
     }
 
@@ -142,8 +206,8 @@ public class GameWorld : Game
     {
         var soilObject = new GameObject();
         soilObject.Transform.Position = position;
-        var sr = soilObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
-        var soil = soilObject.AddComponent<Soil>() as Soil;
+        var sr = soilObject.AddComponent<SpriteRenderer>();
+        var soil = soilObject.AddComponent<Soil>();
         soil.SetState(initialState);
         GameObjects.Add(soilObject);
     }
