@@ -2,6 +2,7 @@
 using SproutLands.Classes.ComponentPattern.Objects;
 using SproutLands.Classes.ComponentPattern;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SproutLands.Classes.FactoryPattern
 {
@@ -26,11 +27,12 @@ namespace SproutLands.Classes.FactoryPattern
         {
             var treeObject = new GameObject();
             treeObject.Transform.Position = position;
-
-            var renderer = treeObject.AddComponent<SpriteRenderer>();
-
+            var sr = treeObject.AddComponent<SpriteRenderer>() as SpriteRenderer;
+            Rectangle treeSourceRect = new Rectangle(0, 0, 32, 32);
             treeObject.AddComponent<Collider>();
             treeObject.AddComponent<Tree>();
+
+            sr.SetSprite("Assets/Sprites/Objects/Basic_Grass_Biom_things", treeSourceRect);
 
             return treeObject;
         }
