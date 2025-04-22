@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SproutLands.Classes.CommandPattern
 {
-    interface ICommand
+    public interface ICommand
     {
+        void Execute();
     }
 }

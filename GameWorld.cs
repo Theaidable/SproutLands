@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SproutLands.Classes.CommandPattern;
+using SproutLands.Classes.Player;
+using System.Collections.Generic;
 
 namespace SproutLands;
 
@@ -8,6 +11,10 @@ public class GameWorld : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private Player _player;
+    private InputHandler _inputHandler;
+
     private static GameWorld instance;
 
     //Oprettelse af Singleton af GameWorld
@@ -33,6 +40,14 @@ public class GameWorld : Game
 
     protected override void Initialize()
     {
+        _player = new Player();
+
+        // Opret InputHandler og bind taster til MoveCommand
+        _inputHandler = new InputHandler();
+        _inputHandler.BindKey(Keys.W, new MoveCommand(_player, new Vector2(0, -1))); // Op
+        _inputHandler.BindKey(Keys.S, new MoveCommand(_player, new Vector2(0, 1)));  // Ned
+        _inputHandler.BindKey(Keys.A, new MoveCommand(_player, new Vector2(-1, 0))); // Venstre
+        _inputHandler.BindKey(Keys.D, new MoveCommand(_player, new Vector2(1, 0)));  // Højre
 
         base.Initialize();
     }
@@ -48,6 +63,7 @@ public class GameWorld : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        _inputHandler.HandleInput();
 
         base.Update(gameTime);
     }
