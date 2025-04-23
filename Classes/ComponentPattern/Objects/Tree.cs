@@ -11,11 +11,16 @@ namespace SproutLands.Classes.ComponentPattern.Objects
 {
     public class Tree : Component
     {
+        //Properties til at tilgå træets egenskaber
         public int Health { get; private set; }
         public bool IsChopped { get; private set; }
         public string ResourceType { get; private set; }
         public int ResourceAmount { get; private set; }
 
+        /// <summary>
+        /// Constructor med standardværdier når man opretter en instans af et træ
+        /// </summary>
+        /// <param name="gameObject"></param>
         public Tree(GameObject gameObject) : base(gameObject)
         {
             Health = 100;
@@ -24,6 +29,10 @@ namespace SproutLands.Classes.ComponentPattern.Objects
             ResourceAmount = 5;
         }
 
+        /// <summary>
+        /// Metode som tager liv fra taget når det "tager skade"
+        /// </summary>
+        /// <param name="amount"></param>
         public void TakeDamage(int amount)
         {
             if (IsChopped) return;

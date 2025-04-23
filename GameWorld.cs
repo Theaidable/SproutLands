@@ -30,7 +30,7 @@ public class GameWorld : Game
         }
     }
 
-    //Simpelt map layout
+    //Map Layout
     private int[,] tileMap =
     {
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -99,6 +99,10 @@ public class GameWorld : Game
         base.Update(gameTime);
     }
 
+    /// <summary>
+    /// Tegner alt i GameWorld
+    /// </summary>
+    /// <param name="gameTime"></param>
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(new Color(155,212,195));
@@ -115,6 +119,9 @@ public class GameWorld : Game
         base.Draw(gameTime);
     }
 
+    /// <summary>
+    /// Metoden opretter banen ved at vi sætter nogle værdier til 2D-arrayet
+    /// </summary>
     public void CreateLevel()
     {
         int rows = tileMap.GetLength(0);
@@ -181,27 +188,32 @@ public class GameWorld : Game
                         break;
                 }
 
-                // Højre hjørne:
+                //Instanser af træer i højre hjørne:
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(25 * 64, 2 * 64), TreeType.Tree1));
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(26 * 64, 3 * 64), TreeType.Tree1));
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(24 * 64, 3 * 64), TreeType.Tree1));
 
-                // Venstre hjørne:
+                //Instanser af træer i venstre hjørne:
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(3 * 64, 12 * 64), TreeType.Tree2));
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(4 * 64, 13 * 64), TreeType.Tree2));
 
-                // Midten:
+                //Instans af træ i midten:
                 GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
 
-                    foreach (var go in GameObjects)
-    {
-        go.Awake();
-        go.Start();
-    }
+                foreach (var go in GameObjects)
+                {
+                    go.Awake();
+                    go.Start();
+                }
             }
         }
     }
 
+    /// <summary>
+    /// Metoden bruges til at oprette en tile
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="spriteName"></param>
     private void CreateTile(Vector2 position, string spriteName)
     {
         var tileObject = new GameObject();
@@ -211,6 +223,11 @@ public class GameWorld : Game
         GameObjects.Add(tileObject);
     }
 
+    /// <summary>
+    /// Metoden bruges til at oprette forskellige typer af jord tiles
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="initialState"></param>
     private void CreateSoilTile(Vector2 position, ISoilState initialState)
     {
         var soilObject = new GameObject();

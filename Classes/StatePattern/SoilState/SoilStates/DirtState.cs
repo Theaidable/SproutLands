@@ -9,6 +9,9 @@ using SproutLands.Classes.ComponentPattern.Objects;
 
 namespace SproutLands.Classes.StatePattern.SoilState.SoilStates
 {
+    /// <summary>
+    /// Enum til at bestemme hvilken type normal jord der skal bruges
+    /// </summary>
     public enum DirtType
     {
         Dirt1,
@@ -25,14 +28,23 @@ namespace SproutLands.Classes.StatePattern.SoilState.SoilStates
 
     public class DirtState : ISoilState
     {
+        //Fields som bruges til at oprette jordens normale dirt state
         private readonly DirtType _variant;
         private Rectangle _sourceRect;
 
+        /// <summary>
+        /// Opretter dens state hvor man bestemmer hvilken dirttype der skal bruges
+        /// </summary>
+        /// <param name="variant"></param>
         public DirtState(DirtType variant)
         {
             _variant = variant;
         }
 
+        /// <summary>
+        /// Bestemmer sprite efter hvilken type der vælges
+        /// </summary>
+        /// <param name="soil"></param>
         public void OnEnter(Soil soil)
         {
             switch (_variant)
@@ -81,6 +93,10 @@ namespace SproutLands.Classes.StatePattern.SoilState.SoilStates
             sr.SetSprite("Assets/Sprites/Tilesets/Grass", _sourceRect);
         }
 
+        /// <summary>
+        /// Update af jorden
+        /// </summary>
+        /// <param name="soil"></param>
         public void Update(Soil soil) { }
     }
 }

@@ -7,6 +7,9 @@ using SproutLands.Classes.StatePattern.SoilState.SoilStates;
 
 namespace SproutLands.Classes.FactoryPattern
 {
+    /// <summary>
+    /// Enum som bruges til at bestemme hvilken type træ der skal bruges
+    /// </summary>
     public enum TreeType
     {
         Tree1,
@@ -16,11 +19,11 @@ namespace SproutLands.Classes.FactoryPattern
 
     public class TreeFactory : Factory
     {
+        //Rectangel som skal bruges til at bestemme udsnit af spritesheet
         private Rectangle _sourceRect;
 
+        //Oprettelse af Singleton for TreeFactory
         private static TreeFactory instance;
-
-        //Oprettelse af Singleton af GameWorld
         public static TreeFactory Instance
         {
             get
@@ -33,19 +36,32 @@ namespace SproutLands.Classes.FactoryPattern
             }
         }
 
+        /// <summary>
+        /// Override af hovedklassens metode
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public override GameObject Create(Vector2 position)
         {
             return Create(position, TreeType.Tree1);
         }
 
+        /// <summary>
+        /// Metode som bruges til at oprette et træ
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public GameObject Create(Vector2 position, TreeType type)
         {
+            //Opretter objektet og tilføjer components
             var treeObject = new GameObject();
             treeObject.Transform.Position = position;
             var sr = treeObject.AddComponent<SpriteRenderer>();
             treeObject.AddComponent<Collider>();
             treeObject.AddComponent<Tree>();
 
+            //Switch case over de forskellige typer træer med hver deres udsnit i spritesheetet
             switch (type)
             {
                 case TreeType.Tree1:
@@ -59,6 +75,7 @@ namespace SproutLands.Classes.FactoryPattern
                     break;
             }
 
+            //Sætter sprite
             sr.SetSprite("Assets/Sprites/Objects/Basic_Grass_Biom_things", _sourceRect);
 
             return treeObject;

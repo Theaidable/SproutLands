@@ -10,17 +10,23 @@ namespace SproutLands.Classes.ComponentPattern
 {
     public class GameObject
     {
-        //Fields
+        //Liste af components
         private List<Component> components = new List<Component>();
 
-        //Property
+        //Property til at tilgå position
         public Transform Transform { get; private set; }
 
+        /// <summary>
+        /// Constructor af et gameobject, hvor vi altid tilføjer en transformer
+        /// </summary>
         public GameObject()
         {
-            Transform = (Transform)AddComponent<Transform>();
+            Transform = AddComponent<Transform>();
         }
 
+        /// <summary>
+        /// Metode til at awake alle components
+        /// </summary>
         public void Awake()
         {
             foreach (var component in components)
@@ -29,6 +35,9 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metode til at kalde alle compenents ved start
+        /// </summary>
         public void Start()
         {
             foreach (var component in components)
@@ -37,6 +46,9 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metoden opdaterer alle components
+        /// </summary>
         public void Update()
         {
             foreach (var component in components)
@@ -45,6 +57,10 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metode som tegener gameobjectet ved at tegne dens components
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var component in components)
@@ -53,6 +69,10 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Collision håndtering for gameobjectet
+        /// </summary>
+        /// <param name="collider"></param>
         public void OnCollisionEnter(Collider collider)
         {
             foreach (var component in components)
@@ -61,6 +81,13 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metode til at tilføje et component til gameobjectet
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="additionalParameters"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public T AddComponent<T>(params object[] additionalParameters) where T : Component
         {
             Type componentType = typeof(T);
@@ -75,12 +102,19 @@ namespace SproutLands.Classes.ComponentPattern
                 components.Add(component);
                 return component;
             }
+
+            //Catch hvis der sker en fejl
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Fejl ved oprettelse af komponenten {componentType.Name}: {ex.Message}", ex);
             }
         }
 
+        /// <summary>
+        /// Metode til at tilgå components
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T GetComponent<T>() where T : Component
         {
             return components.OfType<T>().FirstOrDefault();

@@ -7,36 +7,27 @@ namespace SproutLands.Classes.ComponentPattern
 {
     public abstract class Component
     {
-        //Property
+        //Properties for component
         public GameObject GameObject { get; private set; }
         public Transform Transform => GameObject.Transform;
 
-        //Constructor
+        /// <summary>
+        /// Components constructor
+        /// </summary>
+        /// <param name="gameObject"></param>
         public Component(GameObject gameObject)
         {
             this.GameObject = gameObject;
         }
 
-        public virtual void Awake()
-        {
+        public virtual void Awake() { }
 
-        }
-        public virtual void Start()
-        {
+        public virtual void Start() { }
+        public virtual void Update() { }
 
-        }
-        public virtual void Update()
-        {
 
-        }
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-
-        }
-        public virtual void OnCollisionEnter(Collider collider)
-        {
-
-        }
+        public virtual void Draw(SpriteBatch spriteBatch) { }
+        public virtual void OnCollisionEnter(Collider collider) { }
 
         public void SetNewGameObject(GameObject gameObject)
         {
