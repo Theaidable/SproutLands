@@ -1,12 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SproutLands.Classes.Playeren;
+using Microsoft.Xna.Framework;
 
 namespace SproutLands.Classes.CommandPattern
 {
-    class MoveCommand
+    public class MoveCommand : ICommand
     {
+        private Player _player;
+        private Vector2 _direction;
+
+        public MoveCommand(Player player, Vector2 direction)
+        {
+            this._player = player;
+            this._direction = direction;
+        }
+
+        public void Execute()
+        {
+            _player.Move(_direction);
+
+            if (_direction == new Vector2(0, -1))
+            {
+                _player.SetState(PlayerState.WalkingUp);
+            }
+            else if (_direction == new Vector2(0, 1))
+            {
+                _player.SetState(PlayerState.WalkingDown);
+            }
+            else if (_direction == new Vector2(-1, 0))
+            {
+                _player.SetState(PlayerState.WalkingLeft);
+            }
+            else if (_direction == new Vector2(1,0))
+            {
+                _player.SetState(PlayerState.WalkingRight);
+            }
+        }
     }
 }

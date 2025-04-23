@@ -1,7 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using SproutLands.Classes.ComponentPattern;
+﻿
 using SproutLands.Classes.ObserverPattern;
 using System.Collections.Generic;
 using SproutLands.Classes.ComponentPattern.Items;

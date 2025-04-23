@@ -1,12 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SproutLands.Classes.CommandPattern;
 using SproutLands.Classes.ComponentPattern;
+using SproutLands.Classes.ComponentPattern.Animation;
+using SproutLands.Classes.ComponentPattern.Colliders;
 using SproutLands.Classes.ComponentPattern.Objects;
 using SproutLands.Classes.FactoryPattern;
+using SproutLands.Classes.Playeren;
 using SproutLands.Classes.StatePattern.SoilState;
 using SproutLands.Classes.StatePattern.SoilState.SoilStates;
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace SproutLands;
 
@@ -15,6 +21,10 @@ public class GameWorld : Game
     //Standard fields
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    //Brug af andre klasser
+    private InputHandler _inputHandler;
+    public Player Player { get; private set; }
 
     //Oprettelse af Singleton af GameWorld
     private static GameWorld instance;
@@ -67,13 +77,18 @@ public class GameWorld : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
 
-        _graphics.PreferredBackBufferWidth = tileSize * 30;
-        _graphics.PreferredBackBufferHeight = tileSize * 18;
+        int cols = tileMap.GetLength(1);
+        int rows = tileMap.GetLength(0);
+
+        _graphics.PreferredBackBufferWidth = cols * tileSize;
+        _graphics.PreferredBackBufferHeight = rows * tileSize;
         _graphics.ApplyChanges();
     }
 
     protected override void Initialize()
     {
+        // Opret InputHandler og bind taster til MoveCommand
+        _inputHandler = InputHandler.Instance;
 
         base.Initialize();
     }
@@ -82,6 +97,25 @@ public class GameWorld : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         CreateLevel();
+        GameObjects.Add(PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 - 100, _graphics.PreferredBackBufferHeight / 2 + 150)));
+
+                        //Instanser af træer i højre hjørne:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(25 * 64, 2 * 64), TreeType.Tree1));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(26 * 64, 3 * 64), TreeType.Tree1));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(24 * 64, 3 * 64), TreeType.Tree1));
+
+                //Instanser af træer i venstre hjørne:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(3 * 64, 12 * 64), TreeType.Tree2));
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(4 * 64, 13 * 64), TreeType.Tree2));
+
+                //Instans af træ i midten:
+                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
+
+        foreach (var go in GameObjects)
+        {
+            go.Awake();
+            go.Start();
+        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -90,6 +124,8 @@ public class GameWorld : Game
             Exit();
 
         DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        _inputHandler.Execute();
 
         foreach (var obj in GameObjects)
         {
@@ -187,24 +223,6 @@ public class GameWorld : Game
                         CreateSoilTile(position, new PreparedState(PreparedType.Prepared2));
                         break;
                 }
-
-                //Instanser af træer i højre hjørne:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(25 * 64, 2 * 64), TreeType.Tree1));
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(26 * 64, 3 * 64), TreeType.Tree1));
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(24 * 64, 3 * 64), TreeType.Tree1));
-
-                //Instanser af træer i venstre hjørne:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(3 * 64, 12 * 64), TreeType.Tree2));
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(4 * 64, 13 * 64), TreeType.Tree2));
-
-                //Instans af træ i midten:
-                GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
-
-                foreach (var go in GameObjects)
-                {
-                    go.Awake();
-                    go.Start();
-                }
             }
         }
     }
@@ -214,12 +232,25 @@ public class GameWorld : Game
     /// </summary>
     /// <param name="position"></param>
     /// <param name="spriteName"></param>
-    private void CreateTile(Vector2 position, string spriteName)
+    private void CreateTile(Vector2 position, string spriteName, int frameCount = 4, float fps = 4f)
     {
+        var tileSheet = Content.Load<Texture2D>(spriteName);
         var tileObject = new GameObject();
         tileObject.Transform.Position = position;
         var sr = tileObject.AddComponent<SpriteRenderer>();
-        sr.SetSprite(spriteName,new Rectangle(0,0,64,64));
+        sr.Sprite = tileSheet;
+        sr.SourceRectangle = new Rectangle(0,0,tileSize,tileSize);
+
+        var tileAnimation = tileObject.AddComponent<Animator>();
+        var frames = new Rectangle[frameCount];
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            frames[i] = new Rectangle(i * tileSize, 0, tileSize, tileSize);
+        }
+
+        tileAnimation.AddAnimation(new Animation("Flow", tileSheet, frames, fps));
+        tileAnimation.PlayAnimation("Flow");
         GameObjects.Add(tileObject);
     }
 

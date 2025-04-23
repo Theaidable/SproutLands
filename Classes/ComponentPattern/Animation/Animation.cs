@@ -8,12 +8,14 @@ namespace SproutLands.Classes.ComponentPattern.Animation
     {
         public float FPS { get; private set; }
         public string Name { get; private set; }
-        public Texture2D[] Sprites { get; private set; }
-        public Animation(string name, Texture2D[] sprites, float fps)
+        public Texture2D SpriteSheet { get; private set; }
+        public Rectangle[] Frames { get; private set; }
+        public Animation(string name, Texture2D spriteSheet, Rectangle[] frames, float fps)
         {
-            this.Name = name;
-            this.Sprites = sprites;
-            this.FPS = fps;
+            Name = name;
+            SpriteSheet = spriteSheet;
+            Frames = frames;
+            FPS = fps;
         }
     }
 }
