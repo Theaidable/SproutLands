@@ -20,32 +20,34 @@ namespace SproutLands.Classes.ComponentPattern.Animation
         }
         public override void Update()
         {
-            elapsed += GameWorld.Instance.DeltaTime;
-            CurrentIndex = (int)(elapsed * currentAnimation.FPS);
-
-            if (CurrentIndex > currentAnimation.Sprites.Length - 1)
+            if(currentAnimation == null)
             {
-                elapsed = 0;
-                CurrentIndex = 0;
+                return;
             }
-            spriteRenderer.Sprite = currentAnimation.Sprites[CurrentIndex];
+
+            elapsed += GameWorld.Instance.DeltaTime;
+            CurrentIndex = (int)(elapsed * currentAnimation.FPS % currentAnimation.Frames.Length);
+
+            spriteRenderer.SourceRectangle = currentAnimation.Frames[CurrentIndex];
         }
         public void AddAnimation(Animation animation)
         {
-            animations.Add(animation.Name, animation);
-            if (currentAnimation == null)
+            animations[animation.Name] = animation;
+            if(currentAnimation == null)
             {
                 currentAnimation = animation;
             }
         }
         public void PlayAnimation(string animationName)
         {
-            if (animationName != currentAnimation.Name)
+            if(currentAnimation?.Name == animationName)
             {
-                currentAnimation = animations[animationName];
-                elapsed = 0;
-                CurrentIndex = 0;
+                return;
             }
+
+            currentAnimation = animations[animationName];
+            spriteRenderer.Sprite = currentAnimation.SpriteSheet;
+            elapsed = 0;
         }
     }
 }
