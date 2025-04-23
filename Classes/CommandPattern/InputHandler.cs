@@ -50,29 +50,30 @@ namespace SproutLands.Classes.CommandPattern
             KeyboardState keyState = Keyboard.GetState();
 
 
-            foreach (var pressedKey in keyState.GetPressedKeys())
+            foreach (var key in keybindsUpdate.Keys)
             {
-                if (keybindsUpdate.TryGetValue(pressedKey, out ICommand cmd))
+                if (keyState.IsKeyDown(key))
                 {
-                    cmd.Execute();
-                }
-
-                if (!previousKeyState.IsKeyDown(pressedKey) && keyState.IsKeyDown(pressedKey))
-                {
-                    if (keybindsButtonDown.TryGetValue(pressedKey, out ICommand cmdBd))
-                    {
-                        cmdBd.Execute();
-                        executedCommands.Push(cmdBd);
-                        unExecutedCommands.Clear();
-                    }
+                    keybindsUpdate[key].Execute();
+                    break;
                 }
             }
 
-            foreach (var pressedKey in previousKeyState.GetPressedKeys())
+            foreach (var key in keybindsButtonDown.Keys)
             {
-                if (!keyState.IsKeyDown(pressedKey) && keybindsButtonUp.TryGetValue(pressedKey, out ICommand cmdBu))
+                if (!previousKeyState.IsKeyDown(key) && keyState.IsKeyDown(key))
                 {
-                    cmdBu.Execute();
+                    keybindsButtonDown[key].Execute();
+                    executedCommands.Push(keybindsButtonDown[key]);
+                    unExecutedCommands.Clear();
+                }
+            }
+
+            foreach (var key in keybindsButtonUp.Keys)
+            {
+                if (previousKeyState.IsKeyDown(key) && !keyState.IsKeyDown(key))
+                {
+                    keybindsButtonUp[key].Execute();
                 }
             }
 

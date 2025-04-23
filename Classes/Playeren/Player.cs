@@ -26,7 +26,7 @@ namespace SproutLands.Classes.Playeren
     {
         private Animator _animator;
         private PlayerState _currentState;
-        private List<IObserver> observers = new();
+        private List<IObserver> observers = new List<IObserver>();
         public Inventory Inventory { get; private set; }
 
         public Player(GameObject gameObject) : base(gameObject)

@@ -41,7 +41,6 @@ namespace SproutLands.Classes.FactoryPattern
 
             int frameWidth = 128;
             int frameHeight = 128;
-            int framesPerState = 2;
 
             //IdleDown animation
             animator.AddAnimation(new Animation(
@@ -109,8 +108,8 @@ namespace SproutLands.Classes.FactoryPattern
                 playerSheet,
                 new Rectangle[]
                     {
-                    new Rectangle(2 * frameWidth, 2 * frameHeight, frameWidth, frameHeight),
                     new Rectangle(3 * frameWidth, 2 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(2 * frameWidth, 2 * frameHeight, frameWidth, frameHeight),
                     },
                 2.5f
                 ));
@@ -133,11 +132,12 @@ namespace SproutLands.Classes.FactoryPattern
                 playerSheet,
                 new Rectangle[]
                     {
-                    new Rectangle(2 * frameWidth, 3 * frameHeight, frameWidth, frameHeight),
                     new Rectangle(3 * frameWidth, 3 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(2 * frameWidth, 3 * frameHeight, frameWidth, frameHeight),
                     },
-            2.5f
-            ));
+                2.5f
+                ));
+
             animator.PlayAnimation(PlayerState.IdleUp.ToString());
 
             var playerComp = playerObject.AddComponent<Player>();

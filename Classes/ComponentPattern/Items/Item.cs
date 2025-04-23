@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SproutLands.Classes.ComponentPattern.Items
 {
     public class Item
     {
+        public Texture2D Icon { get; set; }
     }
 }
