@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SproutLands.Classes.ComponentPattern;
+using Microsoft.Xna.Framework;
 
 namespace SproutLands.Classes.FactoryPattern
 {
-    class Factory
+    public abstract class Factory
     {
+        //Metode som alle factories skal bruge
+        public abstract GameObject Create(Vector2 position);
     }
 }

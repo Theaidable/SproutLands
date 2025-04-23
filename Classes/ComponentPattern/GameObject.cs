@@ -4,17 +4,29 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
 using SproutLands.Classes.ComponentPattern.Colliders;
+using System.Linq;
 
 namespace SproutLands.Classes.ComponentPattern
 {
     public class GameObject
     {
-        //Fields
+        //Liste af components
         private List<Component> components = new List<Component>();
 
-        //Property
+        //Property til at tilgå position
         public Transform Transform { get; private set; }
 
+        /// <summary>
+        /// Constructor af et gameobject, hvor vi altid tilføjer en transformer
+        /// </summary>
+        public GameObject()
+        {
+            Transform = AddComponent<Transform>();
+        }
+
+        /// <summary>
+        /// Metode til at awake alle components
+        /// </summary>
         public void Awake()
         {
             foreach (var component in components)
@@ -23,6 +35,9 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metode til at kalde alle compenents ved start
+        /// </summary>
         public void Start()
         {
             foreach (var component in components)
@@ -31,6 +46,9 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metoden opdaterer alle components
+        /// </summary>
         public void Update()
         {
             foreach (var component in components)
@@ -39,6 +57,10 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Metode som tegener gameobjectet ved at tegne dens components
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var component in components)
@@ -47,6 +69,10 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
+        /// <summary>
+        /// Collision håndtering for gameobjectet
+        /// </summary>
+        /// <param name="collider"></param>
         public void OnCollisionEnter(Collider collider)
         {
             foreach (var component in components)
@@ -55,7 +81,14 @@ namespace SproutLands.Classes.ComponentPattern
             }
         }
 
-        public Component AddComponent<T>(params object[] additionalParameters) where T : Component
+        /// <summary>
+        /// Metode til at tilføje et component til gameobjectet
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="additionalParameters"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public T AddComponent<T>(params object[] additionalParameters) where T : Component
         {
             Type componentType = typeof(T);
             try
@@ -69,17 +102,22 @@ namespace SproutLands.Classes.ComponentPattern
                 components.Add(component);
                 return component;
             }
-            catch (Exception)
+
+            //Catch hvis der sker en fejl
+            catch (Exception ex)
             {
-                // Håndter tilfælde, hvor der ikke er en passende konstruktør
-                throw new InvalidOperationException($"Klassen {componentType.Name} har ikke en " +
-                    "konstruktør, der matcher de leverede parametre.");
+                throw new InvalidOperationException($"Fejl ved oprettelse af komponenten {componentType.Name}: {ex.Message}", ex);
             }
         }
 
-        public Component GetComponent<T>() where T : Component
+        /// <summary>
+        /// Metode til at tilgå components
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetComponent<T>() where T : Component
         {
-            return components.Find(x => x.GetType() == typeof(T));
+            return components.OfType<T>().FirstOrDefault();
         }
 
         public Component AddComponentWithExistingValues(Component component)
