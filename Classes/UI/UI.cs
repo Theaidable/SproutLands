@@ -32,20 +32,20 @@ namespace SproutLands.Classes.UI
             slotTexture = GameWorld.Instance.Content.Load<Texture2D>("Assets/UI/Sprite Sheets/Sprite sheet for Basic Pack");
             panelTexture = slotTexture;
 
-            slotSource = new Rectangle(480, 200, 80, 80);
+            slotSource = new Rectangle(480, 200, 90, 90);
             panelSource = new Rectangle(550, 350, 190, 60);
 
             int screenW = GameWorld.Instance.Window.ClientBounds.Width;
             int screenH = GameWorld.Instance.Window.ClientBounds.Height;
 
-            panelPosition = new Vector2(screenW / 2 - panelSource.Width / 2, screenH - panelSource.Height - 150);
+            panelPosition = new Vector2(screenW / 2 - 390, screenH - panelSource.Height - 90);
 
             //Beregn startposition: centreret i bunden
             int slotCount = 9;
-            int spacing = 10;
+            int spacing = 20;
             int slotSize = 64;
             int totalWidth = slotCount * slotSize + (slotCount - 1) * spacing;
-            Vector2 startPos = new Vector2(screenW / 2 - totalWidth / 2,panelPosition.Y + (panelSource.Height - slotSize) / 2);
+            Vector2 startPos = new Vector2(screenW / 2 - totalWidth / 2,panelPosition.Y + (panelSource.Height - slotSize) / 2 + 30);
 
             for (int i = 0; i < slotCount; i++)
             {
@@ -57,19 +57,17 @@ namespace SproutLands.Classes.UI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            int desiredWidth = panelSource.Width * 6;
-            float desiredHeight = panelSource.Height * 2.5f;
+            float desiredWidth = panelSource.Width * 4.5f;
+            float desiredHeight = panelSource.Height * 2.3f;
 
-            Rectangle destRect = new Rectangle((int)panelPosition.X, (int)panelPosition.Y, desiredWidth, (int)desiredHeight);
+            Rectangle destRect = new Rectangle((int)panelPosition.X, (int)panelPosition.Y, (int)desiredWidth, (int)desiredHeight);
 
             spriteBatch.Draw(panelTexture, destRect, panelSource, Color.White);
 
-            /*
             foreach (var slot in hudSlots)
             {
                 slot.Draw(spriteBatch);
             }
-            */
         }
 
         public void Update(ISubject subject)
