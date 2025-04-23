@@ -16,9 +16,7 @@ namespace SproutLands.Classes.ComponentPattern
         /// Tom Constructor, men nødvendig da den nedarver fra component
         /// </summary>
         /// <param name="gameObject"></param>
-        public SpriteRenderer(GameObject gameObject) : base(gameObject)
-        {
-        }
+        public SpriteRenderer(GameObject gameObject) : base(gameObject) { }
 
         /// <summary>
         /// Metode til at sætte et objects sprite

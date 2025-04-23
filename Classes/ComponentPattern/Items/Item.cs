@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SproutLands.Classes.ComponentPattern.Items
 {
-    class Item
+    public class Item
     {
     }
 }

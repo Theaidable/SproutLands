@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SproutLands.Classes.ObserverPattern
 {
-    interface ISubject
+    public interface ISubject
     {
+        void Attach(IObserver observer);
+        void Detach(IObserver observer);
+        void Notify();
     }
 }

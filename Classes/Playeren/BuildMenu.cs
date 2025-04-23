@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SproutLands.Classes.Player
+namespace SproutLands.Classes.Playeren
 {
-    class Player
+    class BuildMenu
     {
     }
 }
