@@ -28,9 +28,6 @@ namespace SproutLands.Classes.CommandPattern
         private Dictionary<Keys,ICommand> keybindsButtonUp = new Dictionary<Keys, ICommand>();
         private KeyboardState previousKeyState;
 
-        private Stack<ICommand> executedCommands = new Stack<ICommand>();
-
-        private Stack<ICommand> unExecutedCommands = new Stack<ICommand>();
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {
             keybindsUpdate.Add(inputKey, command);
@@ -64,8 +61,6 @@ namespace SproutLands.Classes.CommandPattern
                 if (!previousKeyState.IsKeyDown(key) && keyState.IsKeyDown(key))
                 {
                     keybindsButtonDown[key].Execute();
-                    executedCommands.Push(keybindsButtonDown[key]);
-                    unExecutedCommands.Clear();
                 }
             }
 

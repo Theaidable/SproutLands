@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SproutLands.Classes.UIClasses;
 
 namespace SproutLands.Classes.FactoryPattern
 {
@@ -141,6 +142,7 @@ namespace SproutLands.Classes.FactoryPattern
             animator.PlayAnimation(PlayerState.IdleUp.ToString());
 
             var playerComp = playerObject.AddComponent<Player>();
+            var ui = playerObject.AddComponent<UI>(playerComp);
 
             //Bind MoveCommands
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(playerComp, new Vector2(0, -1)));
@@ -153,6 +155,9 @@ namespace SproutLands.Classes.FactoryPattern
             InputHandler.Instance.AddButtonUpCommand(Keys.S, new IdleCommand(playerComp, PlayerState.IdleDown));
             InputHandler.Instance.AddButtonUpCommand(Keys.A, new IdleCommand(playerComp, PlayerState.IdleLeft));
             InputHandler.Instance.AddButtonUpCommand(Keys.D, new IdleCommand(playerComp, PlayerState.IdleRight));
+
+            //Bind ButtonClicks
+            InputHandler.Instance.AddButtonDownCommand(Keys.I, new OpenInventoryCommand(ui));
 
             playerComp.SetState(PlayerState.IdleDown);
 

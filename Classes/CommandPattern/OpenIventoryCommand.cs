@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using SproutLands.Classes.UIClasses;
 
 namespace SproutLands.Classes.CommandPattern
 {
-    class OpenIventoryCommand
+    public class OpenInventoryCommand : ICommand
     {
+        private readonly UI _ui;
+        public OpenInventoryCommand(UI ui) => _ui = ui;
+        public void Execute()
+        {
+            _ui.ToggleInventory();
+        }
     }
 }
