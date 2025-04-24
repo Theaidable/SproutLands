@@ -19,6 +19,10 @@ namespace SproutLands.Classes.UIClasses
 
         //Slot Texture
         private Texture2D slotTexture;
+        private int slotCount = 9;
+        private int slotSpacing = 20;
+        private int slotSize = 64;
+        private int totalWidth;
 
         //Hudbar
         private bool showHudbar = true;
@@ -26,11 +30,8 @@ namespace SproutLands.Classes.UIClasses
         private Texture2D hudBackgroundTexture;
         private Rectangle hudBackgroundSource;
         private Vector2 hudBackgroundPosition;
-        private int hudSlotCount;
-        private int hudSlotSpacing;
-        private int hudSlotSize;
-        private int hudTotalWidth;
         private Vector2 hudStartPos;
+        private Vector2 hudSlotPos;
 
         //Inventory
         private bool showInventory = false;
@@ -38,12 +39,9 @@ namespace SproutLands.Classes.UIClasses
         private Texture2D inventoryBackgroundTexture;
         private Rectangle inventoryBackgroundSource;
         private Vector2 inventoryBackgroundPosition;
-        private int inventorySlotCount;
-        private int inventorySlotRows;
-        private int inventorySlotSpacing;
-        private int inventorySlotSize;
-        private int inventoryTotalWidth;
+        private int inventorySlotRows = 5;
         private Vector2 invStartPos;
+        private Vector2 invSlotPos;
 
         int screenW = GameWorld.Instance.Window.ClientBounds.Width;
         int screenH = GameWorld.Instance.Window.ClientBounds.Height;
@@ -75,33 +73,25 @@ namespace SproutLands.Classes.UIClasses
             hudBackgroundPosition = new Vector2(screenW / 2 - 390, screenH - hudBackgroundSource.Height - 90);
             inventoryBackgroundPosition = new Vector2(screenW / 2 - 515, screenH / 4 - 100);
 
-            //Beregn postion for slots i hudbaren
-            hudSlotCount = 9;
-            hudSlotSpacing = 20;
-            hudSlotSize = 64;
-            hudTotalWidth = hudSlotCount * hudSlotSize + (hudSlotCount - 1) * hudSlotSpacing;
-            hudStartPos = new Vector2(screenW / 2 - hudTotalWidth / 2, hudBackgroundPosition.Y + (hudBackgroundSource.Height - hudSlotSize) / 2 + 30);
+            //Beregning af den totale bredde af slots
+            totalWidth = slotCount * slotSize + (slotCount - 1) * slotSpacing;
 
-            for (int i = 0; i < hudSlotCount; i++)
+            //Beregn postion for slots i hudbaren
+            hudStartPos = new Vector2(screenW / 2 - totalWidth / 2, hudBackgroundPosition.Y + (hudBackgroundSource.Height - slotSize) / 2 + 30);
+            for (int i = 0; i < slotCount; i++)
             {
-                Vector2 hudSlotPos = hudStartPos + new Vector2(i * (hudSlotSize + hudSlotSpacing), 0);
+                hudSlotPos = hudStartPos + new Vector2(i * (slotSize + slotSpacing), 0);
                 var hudSlot = new ItemSlot(slotTexture, hudSlotSource, hudSlotPos);
                 hudSlots.Add(hudSlot);
             }
 
             //Beregn position for slots i inventory
-            inventorySlotCount = 9;
-            inventorySlotRows = 5;
-            inventorySlotSpacing = 20;
-            inventorySlotSize = 64;
-            inventoryTotalWidth = inventorySlotCount * inventorySlotSize + (inventorySlotCount - 1) * inventorySlotSpacing;
-            invStartPos = new Vector2(screenW / 2 - inventoryTotalWidth / 2, inventoryBackgroundPosition.Y + (inventoryBackgroundSource.Height - inventorySlotSize) / 2 + 50);
-            
+            invStartPos = new Vector2(screenW / 2 - totalWidth / 2, inventoryBackgroundPosition.Y + (inventoryBackgroundSource.Height - slotSize) / 2 + 50);
             for (int y = 0; y < inventorySlotRows; y++)
             {
-                for (int x = 0; x < inventorySlotCount; x++)
+                for (int x = 0; x < slotCount; x++)
                 {
-                    Vector2 invSlotPos = invStartPos + new Vector2(x * (inventorySlotSize + inventorySlotSpacing), y *(inventorySlotSize + inventorySlotSpacing));
+                    invSlotPos = invStartPos + new Vector2(x * (slotSize + slotSpacing), y *(slotSize + slotSpacing));
                     var invSlot = new ItemSlot(slotTexture,inventorySlotSource, invSlotPos);
                     invSlots.Add(invSlot);
                 }
@@ -140,20 +130,12 @@ namespace SproutLands.Classes.UIClasses
                 }
 
                 //Tegn HUDs slots i bunden af inventory
-                float hudSlotsX = screenW / 2 - hudTotalWidth / 2;
-                float hudSlotsY = inventoryBackgroundDestRect.Y + inventoryBackgroundDestRect.Height - hudSlotSize - 80f;
-                Vector2 hudStartPosInInventory = new Vector2(hudSlotsX, hudSlotsY);
-
-                for (int i = 0; i < hudSlots.Count; i++)
+                Vector2 hudStartPosInInventory = new Vector2(screenW / 2 - totalWidth / 2, inventoryBackgroundDestRect.Y + inventoryBackgroundDestRect.Height - slotSize - 80f);
+                for (int i = 0; i < slotCount; i++)
                 {
                     var slot = hudSlots[i];
-                    Vector2 drawPos = hudStartPosInInventory + new Vector2(i * (hudSlotSize + hudSlotSpacing), 0);
+                    Vector2 drawPos = hudStartPosInInventory + new Vector2(i * (slotSize + slotSpacing), 0);
                     spriteBatch.Draw(slot.Texture, drawPos, slot.SourceRect, Color.White);
-
-                    if (slot.Item != null && slot.Item.Icon != null)
-                    {
-                        spriteBatch.Draw(slot.Item.Icon, drawPos, Color.White);
-                    }
                 }
             }
         }
