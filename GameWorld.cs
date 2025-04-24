@@ -8,6 +8,7 @@ using SproutLands.Classes.ComponentPattern.Colliders;
 using SproutLands.Classes.ComponentPattern.Objects;
 using SproutLands.Classes.FactoryPattern;
 using SproutLands.Classes.Playeren;
+using SproutLands.Classes.Playeren.Tools;
 using SproutLands.Classes.StatePattern.SoilState;
 using SproutLands.Classes.StatePattern.SoilState.SoilStates;
 using SproutLands.Classes.UI;
@@ -100,6 +101,7 @@ public class GameWorld : Game
         CreateLevel();
         var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
         Player = new Player(playerObject);
+        Player.AddItemToInventory(new Axe());
         GameObjects.Add(playerObject);
 
         //Instanser af træer i højre hjørne:

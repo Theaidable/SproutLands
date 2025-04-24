@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SproutLands.Classes.Playeren.Tools
 {
-    class Axe
+    public class Axe : Tool
     {
+        // Funktionalitet til Axe
     }
 }

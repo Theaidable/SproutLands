@@ -6,6 +6,8 @@ using SproutLands.Classes.ComponentPattern.Items;
 using SproutLands.Classes.ComponentPattern.Animation;
 using SproutLands.Classes.CommandPattern;
 using Microsoft.Xna.Framework.Input;
+using SproutLands.Classes.Playeren.Tools;
+using System.Linq;
 
 
 namespace SproutLands.Classes.Playeren
@@ -39,6 +41,11 @@ namespace SproutLands.Classes.Playeren
 
         public void Attach(IObserver observer) => observers.Add(observer);
         public void Detach(IObserver observer) => observers.Remove(observer);
+
+        public bool HasAxe()
+        {
+            return Inventory.Items.Any(item => item is Axe);
+        }
 
         public void Notify()
         {
