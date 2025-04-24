@@ -10,7 +10,7 @@ using SproutLands.Classes.FactoryPattern;
 using SproutLands.Classes.Playeren;
 using SproutLands.Classes.StatePattern.SoilState;
 using SproutLands.Classes.StatePattern.SoilState.SoilStates;
-using SproutLands.Classes.UI;
+using SproutLands.Classes.UIClasses;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -98,9 +98,6 @@ public class GameWorld : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         CreateLevel();
-        var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
-        Player = new Player(playerObject);
-        GameObjects.Add(playerObject);
 
         //Instanser af træer i højre hjørne:
         GameObjects.Add(TreeFactory.Instance.Create(new Vector2(25 * 64, 2 * 64), TreeType.Tree1));
@@ -114,9 +111,9 @@ public class GameWorld : Game
         //Instans af træ i midten:
         GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
 
-        var uiObject = new GameObject();
-        uiObject.AddComponent<UI>(Player);
-        GameObjects.Add(uiObject);
+        var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
+        Player = new Player(playerObject);
+        GameObjects.Add(playerObject);
 
         foreach (var go in GameObjects)
         {

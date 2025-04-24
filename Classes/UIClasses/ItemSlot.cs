@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SproutLands.Classes.ComponentPattern.Items;
 
-namespace SproutLands.Classes.UI
+namespace SproutLands.Classes.UIClasses
 {
     public class ItemSlot
     {
