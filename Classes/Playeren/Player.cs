@@ -8,6 +8,7 @@ using SproutLands.Classes.CommandPattern;
 using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.Playeren.Tools;
 using System.Linq;
+using System;
 
 
 namespace SproutLands.Classes.Playeren
@@ -24,12 +25,14 @@ namespace SproutLands.Classes.Playeren
         WalkingRight
     }
 
+    
     public class Player : Component, ISubject
     {
         private Animator _animator;
         private PlayerState _currentState;
         private List<IObserver> observers = new List<IObserver>();
         public Inventory Inventory { get; private set; }
+        public Tool EquippedTool { get; private set; }
 
         public Player(GameObject gameObject) : base(gameObject)
         {
@@ -45,6 +48,16 @@ namespace SproutLands.Classes.Playeren
         public bool HasAxe()
         {
             return Inventory.Items.Any(item => item is Axe);
+        }
+
+        public void EquipTool(Tool tool)
+        {
+            EquippedTool = tool;
+
+            if (tool != null)
+                System.Diagnostics.Debug.WriteLine($"Equipped tool: {tool.GetType().Name}");
+            else
+                System.Diagnostics.Debug.WriteLine("Unequipped tool.");
         }
 
         public void Notify()

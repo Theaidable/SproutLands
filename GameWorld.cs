@@ -91,7 +91,7 @@ public class GameWorld : Game
     {
         // Opret InputHandler og bind taster til MoveCommand
         _inputHandler = InputHandler.Instance;
-
+        
         base.Initialize();
     }
 
@@ -112,10 +112,27 @@ public class GameWorld : Game
         //Instans af træ i midten:
         GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
 
+        //Load af Axe ikon på hotbar
+        Texture2D axeIcon = Content.Load<Texture2D>("Assets/Sprites/Objects/Axe");
+        if (axeIcon == null)
+            Console.WriteLine("Axe icon is missing!");
+
+
         var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
         Player = new Player(playerObject);
-        Player.AddItemToInventory(new Axe());
+        Player.AddItemToInventory(new Axe(axeIcon));
         GameObjects.Add(playerObject);
+
+        // Bind 1-9 til tool valg
+        _inputHandler.AddButtonDownCommand(Keys.D1, new EquipToolCommand(Player, 0));
+        _inputHandler.AddButtonDownCommand(Keys.D2, new EquipToolCommand(Player, 1));
+        _inputHandler.AddButtonDownCommand(Keys.D3, new EquipToolCommand(Player, 2));
+        _inputHandler.AddButtonDownCommand(Keys.D4, new EquipToolCommand(Player, 3));
+        _inputHandler.AddButtonDownCommand(Keys.D5, new EquipToolCommand(Player, 4));
+        _inputHandler.AddButtonDownCommand(Keys.D6, new EquipToolCommand(Player, 5));
+        _inputHandler.AddButtonDownCommand(Keys.D7, new EquipToolCommand(Player, 6));
+        _inputHandler.AddButtonDownCommand(Keys.D8, new EquipToolCommand(Player, 7));
+        _inputHandler.AddButtonDownCommand(Keys.D9, new EquipToolCommand(Player, 8));
 
         foreach (var go in GameObjects)
         {

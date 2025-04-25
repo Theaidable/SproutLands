@@ -6,5 +6,6 @@ namespace SproutLands.Classes.ComponentPattern.Items
     public class Item
     {
         public Texture2D Icon { get; set; }
+
     }
 }

@@ -97,6 +97,18 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Characters/Tools.png
 
+#begin Assets/Sprites/Objects/Axe.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/Axe.png
+
 #begin Assets/Sprites/Objects/Basic_Furniture.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -145,6 +157,18 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Objects/Basic_tools_and_meterials.png
 
+#begin Assets/Sprites/Objects/BigLog.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/BigLog.png
+
 #begin Assets/Sprites/Objects/Chest.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -181,6 +205,18 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Objects/Free_Chicken_House.png
 
+#begin Assets/Sprites/Objects/Hoe.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/Hoe.png
+
 #begin Assets/Sprites/Objects/Paths.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -204,6 +240,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Objects/Simple_Milk_and_grass_item.png
+
+#begin Assets/Sprites/Objects/SmallLog.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/SmallLog.png
+
+#begin Assets/Sprites/Objects/Stone.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/Stone.png
+
+#begin Assets/Sprites/Objects/WateringCan.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Sprites/Objects/WateringCan.png
 
 #begin Assets/Sprites/Objects/Wood_Bridge.png
 /importer:TextureImporter
