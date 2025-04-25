@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 
 namespace SproutLands.Classes.ComponentPattern.Colliders
 {
@@ -19,9 +17,12 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
             this.Y = y;
         }
 
-        public void UpdatePosition(GameObject gameObject, int width, int height)
+        public void UpdatePosition(GameObject gameObject, Rectangle sourceRectangle)
         {
-            Rectangle = new Rectangle((int)gameObject.Transform.Position.X + X - width / 2, (int)gameObject.Transform.Position.Y + Y - height / 2, 1, 1);
+            float worldX = gameObject.Transform.Position.X - sourceRectangle.Width / 2f + X;
+            float worldY = gameObject.Transform.Position.Y - sourceRectangle.Height / 2f + Y;
+
+            Rectangle = new Rectangle((int)worldX, (int)worldY, 1, 1);
         }
     }
 }

@@ -26,6 +26,7 @@ namespace SproutLands.Classes.ComponentPattern.Animation
             }
 
             elapsed += GameWorld.Instance.DeltaTime;
+
             CurrentIndex = (int)(elapsed * currentAnimation.FPS % currentAnimation.Frames.Length);
 
             spriteRenderer.SourceRectangle = currentAnimation.Frames[CurrentIndex];

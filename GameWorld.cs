@@ -92,7 +92,14 @@ public class GameWorld : Game
     {
         // Opret InputHandler og bind taster til MoveCommand
         _inputHandler = InputHandler.Instance;
-        
+
+        foreach (GameObject gameObject in GameObjects)
+        {
+            gameObject.Awake();
+        }
+
+        _inputHandler.AddButtonDownCommand(Keys.K, new ToggleColliderDrawingCommand(GameObjects));
+
         base.Initialize();
     }
 
@@ -137,9 +144,9 @@ public class GameWorld : Game
         _inputHandler.AddButtonDownCommand(Keys.D8, new EquipToolCommand(Player, 7));
         _inputHandler.AddButtonDownCommand(Keys.D9, new EquipToolCommand(Player, 8));
 
-        foreach (var go in GameObjects)
+        foreach (GameObject gameObject in GameObjects)
         {
-            go.Start();
+            gameObject.Start();
         }
     }
 

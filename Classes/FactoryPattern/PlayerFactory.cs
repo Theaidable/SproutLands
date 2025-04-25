@@ -37,11 +37,13 @@ namespace SproutLands.Classes.FactoryPattern
 
             var sr = playerObject.AddComponent<SpriteRenderer>();
             var animator = playerObject.AddComponent<Animator>();
-
             var playerSheet = GameWorld.Instance.Content.Load<Texture2D>("Assets/Sprites/Characters/Charakter");
+
 
             int frameWidth = 128;
             int frameHeight = 128;
+            var initialRect = new Rectangle(0, 0, frameWidth, frameHeight);
+            sr.SetSprite(playerSheet, initialRect);
 
             //IdleDown animation
             animator.AddAnimation(new Animation(
@@ -141,6 +143,7 @@ namespace SproutLands.Classes.FactoryPattern
 
             animator.PlayAnimation(PlayerState.IdleUp.ToString());
 
+            playerObject.AddComponent<Collider>();
             var playerComp = playerObject.AddComponent<Player>();
             var ui = playerObject.AddComponent<UI>(playerComp);
 

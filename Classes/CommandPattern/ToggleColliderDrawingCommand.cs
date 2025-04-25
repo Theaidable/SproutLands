@@ -1,10 +1,9 @@
-﻿using SproutLands.Classes.CommandPattern;
-using SproutLands.Classes.ComponentPattern;
+﻿using SproutLands.Classes.ComponentPattern;
 using SproutLands.Classes.ComponentPattern.Colliders;
 using System;
 using System.Collections.Generic;
 
-namespace DesignPatterns.CommandPattern
+namespace SproutLands.Classes.CommandPattern
 {
     public class ToggleColliderDrawingCommand : ICommand
     {
