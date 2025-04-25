@@ -125,5 +125,11 @@ namespace SproutLands.Classes.ComponentPattern
             components.Add(component);
             return component;
         }
+
+        public Vector2 GetCenter(int width = 64, int height = 64)
+        {
+            return Transform.Position + new Vector2(width / 2f, height / 2f);
+        }
+
     }
 }

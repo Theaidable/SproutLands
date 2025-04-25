@@ -28,19 +28,19 @@ namespace SproutLands.Classes.CommandPattern
                 return;
             }
 
-            Vector2 playerCenter = _player.GameObject.Transform.Position + new Vector2(32, 32); // antager 64x64 sprite
+            Vector2 playerCenter = _player.GameObject.GetCenter();
 
             var tree = GameWorld.Instance.GameObjects
                 .Select(go => go.GetComponent<Tree>())
                 .Where(t => t != null)
                 .OrderBy(t =>
                 {
-                    Vector2 treeCenter = t.GameObject.Transform.Position + new Vector2(32, 32);
+                    Vector2 treeCenter = t.GameObject.GetCenter();
                     return Vector2.Distance(playerCenter, treeCenter);
                 })
                 .FirstOrDefault(t =>
                 {
-                    Vector2 treeCenter = t.GameObject.Transform.Position + new Vector2(32, 32);
+                    Vector2 treeCenter = t.GameObject.GetCenter();
                     float distance = Vector2.Distance(playerCenter, treeCenter);
                     Debug.WriteLine($"Distance to tree: {distance}");
                     return distance <= maxDistance;
