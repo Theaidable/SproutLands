@@ -24,7 +24,9 @@ namespace SproutLands.Classes.UIClasses
 
             if (Item != null && Item.Icon != null)
             {
-                spriteBatch.Draw(Item.Icon, Position + new Vector2(4, 4), Color.White);
+                // spriteBatch.Draw(Item.Icon, Position + new Vector2(4, 4), Color.White);
+                spriteBatch.Draw(Item.Icon, new Rectangle((int)(Position.X + 4), (int)(Position.Y + 4), 56, 56), Color.White);
+
             }
         }
     }

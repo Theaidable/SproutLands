@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace SproutLands.Classes.ComponentPattern.Animation
 {
     public class Animator : Component
     {
         public int CurrentIndex { get; private set; }
+        public Animation CurrentAnimation { get => currentAnimation; set => currentAnimation = value; }
+        public Action OnAnimationComplete;
+
         private float elapsed;
         private SpriteRenderer spriteRenderer;
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
@@ -18,35 +17,63 @@ namespace SproutLands.Classes.ComponentPattern.Animation
         {
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
+
+        public override void Start()
+        {
+            if (CurrentAnimation != null)
+            {
+                elapsed = 0f;
+                CurrentIndex = 0;
+                spriteRenderer.Sprite = CurrentAnimation.SpriteSheet;
+                spriteRenderer.SourceRectangle = CurrentAnimation.Frames[0];
+            }
+        }
+
         public override void Update()
         {
-            if(currentAnimation == null)
+            if (CurrentAnimation == null)
             {
                 return;
             }
 
             elapsed += GameWorld.Instance.DeltaTime;
-            CurrentIndex = (int)(elapsed * currentAnimation.FPS % currentAnimation.Frames.Length);
 
-            spriteRenderer.SourceRectangle = currentAnimation.Frames[CurrentIndex];
+            if (CurrentAnimation.IsLooping)
+            {
+                CurrentIndex = (int)(elapsed * CurrentAnimation.FPS) % CurrentAnimation.Frames.Length;
+            }
+            else
+            {
+                CurrentIndex = (int)(elapsed * CurrentAnimation.FPS);
+                if (CurrentIndex >= CurrentAnimation.Frames.Length)
+                {
+                    CurrentIndex = CurrentAnimation.Frames.Length - 1;
+                    OnAnimationComplete?.Invoke();
+                    OnAnimationComplete = null;
+                }
+            }
+
+            spriteRenderer.SourceRectangle = CurrentAnimation.Frames[CurrentIndex];
         }
+
         public void AddAnimation(Animation animation)
         {
             animations[animation.Name] = animation;
-            if(currentAnimation == null)
+            if(CurrentAnimation == null)
             {
-                currentAnimation = animation;
+                CurrentAnimation = animation;
             }
         }
+
         public void PlayAnimation(string animationName)
         {
-            if(currentAnimation?.Name == animationName)
+            if(CurrentAnimation?.Name == animationName)
             {
                 return;
             }
 
-            currentAnimation = animations[animationName];
-            spriteRenderer.Sprite = currentAnimation.SpriteSheet;
+            CurrentAnimation = animations[animationName];
+            spriteRenderer.Sprite = CurrentAnimation.SpriteSheet;
             elapsed = 0;
         }
     }

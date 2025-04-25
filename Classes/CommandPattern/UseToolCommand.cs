@@ -1,49 +1,96 @@
 ﻿using SproutLands.Classes.Playeren;
 using SproutLands.Classes.Playeren.Tools;
-using SproutLands.Classes.ComponentPattern;
-using SproutLands.Classes.ComponentPattern.Items;
+
 using SproutLands.Classes.ComponentPattern.Objects;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using System;
+using System.Diagnostics;
+using SproutLands.Classes.ComponentPattern.Colliders;
+using SproutLands.Classes.ComponentPattern;
 
 namespace SproutLands.Classes.CommandPattern
 {
     public class UseToolCommand : ICommand
     {
         private Player _player;
-        private GameObject _target;
+        private int _damage = 50;
+        private bool hit;
 
-        public UseToolCommand(Player player, GameObject target)
+        public UseToolCommand(Player player)
         {
             _player = player;
-            _target = target;
         }
 
         public void Execute()
         {
-            Tree tree = _target.GetComponent<Tree>();
+            Debug.WriteLine($"[UseTool] FacingDirection = {_player.FacingDirection}");
 
-            if (tree == null || tree.IsChopped)
+            if (_player.EquippedTool is not Axe)
             {
-                Console.WriteLine("Ingen træ fundet.");
+                Debug.WriteLine("No axe equipped.");
                 return;
             }
 
-            if (_player.HasAxe())
+            UseAxe(_player.FacingDirection);
+        }
+
+        public void UseAxe(Vector2 direction)
+        {
+            if(direction == new Vector2(0, -1))
             {
-                tree.TakeDamage(50); // fx. et hug = 50 dmg
-                if (tree.IsChopped)
-                {
-                    for (int i = 0; i < tree.ResourceAmount; i++)
-                    {
-                        _player.AddItemToInventory(new WoodItem());
-                    }
-                }
+                _player.SetState(PlayerState.UseAxeUp);
+
             }
-            else
+            else if(direction == new Vector2(0, 1))
             {
-                Console.WriteLine("Du har ikke en økse!");
+                _player.SetState(PlayerState.UseAxeDown);
+
+            }
+            else if(direction == new Vector2(-1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeLeft);
+
+            }
+            else if(direction == new Vector2(1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeRight);
+            }
+
+            var playerCollider = _player.GameObject.GetComponent<Collider>();
+            if (playerCollider == null)
+            {
+                Debug.WriteLine("Player has no collider!");
+                return;
+            }
+
+            foreach (GameObject gameObject in GameWorld.Instance.GameObjects)
+            {
+                Tree tree = gameObject.GetComponent<Tree>();
+                Collider treeCollider = gameObject.GetComponent<Collider>();
+
+                if(tree == null || treeCollider == null)
+                {
+                    continue;
+                }
+
+                if (!playerCollider.CollisionBox.Intersects(treeCollider.CollisionBox))
+                {
+                    continue;
+                }
+
+                hit = playerCollider.PixelPerfectRectangles.Any(pr => treeCollider.PixelPerfectRectangles.Any(tr => pr.Rectangle.Intersects(tr.Rectangle)));
+
+                if(hit == true)
+                {
+                    tree.TakeDamage(_damage);
+                    Debug.WriteLine($"Tree chopped! Damage: {_damage}");
+                    break;
+                }
+                else
+                {
+                    Debug.WriteLine("No tree in collision range.");
+                }
             }
         }
     }

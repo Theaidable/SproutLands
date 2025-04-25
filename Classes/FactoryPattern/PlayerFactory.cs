@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.UIClasses;
+using System.ComponentModel.DataAnnotations;
 
 namespace SproutLands.Classes.FactoryPattern
 {
@@ -37,11 +38,14 @@ namespace SproutLands.Classes.FactoryPattern
 
             var sr = playerObject.AddComponent<SpriteRenderer>();
             var animator = playerObject.AddComponent<Animator>();
-
             var playerSheet = GameWorld.Instance.Content.Load<Texture2D>("Assets/Sprites/Characters/Charakter");
+            var useToolSheet = GameWorld.Instance.Content.Load<Texture2D>("Assets/Sprites/Characters/Charakter_Actions");
+
 
             int frameWidth = 128;
             int frameHeight = 128;
+            var initialRect = new Rectangle(0, 0, frameWidth, frameHeight);
+            sr.SetSprite(playerSheet.ToString(), initialRect);
 
             //IdleDown animation
             animator.AddAnimation(new Animation(
@@ -139,8 +143,56 @@ namespace SproutLands.Classes.FactoryPattern
                 2.5f
                 ));
 
-            animator.PlayAnimation(PlayerState.IdleUp.ToString());
+            //Use AxeUp Animation
+            animator.AddAnimation(new Animation(
+                PlayerState.UseAxeUp.ToString(),
+                useToolSheet,
+                new Rectangle[]
+                {
+                    new Rectangle(0 * frameWidth, 5 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(1 * frameWidth, 5 * frameHeight, frameWidth, frameHeight),
+                },
+                2.5f
+                ));
 
+            //Use AxeDown
+            animator.AddAnimation(new Animation(
+                PlayerState.UseAxeDown.ToString(),
+                useToolSheet,
+                new Rectangle[]
+                {
+                    new Rectangle(0 * frameWidth, 4 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(1 * frameWidth, 4 * frameHeight, frameWidth, frameHeight),
+                },
+                2.5f
+                ));
+
+            //Use AxeLeft Animation
+            animator.AddAnimation(new Animation(
+                PlayerState.UseAxeLeft.ToString(),
+                useToolSheet,
+                new Rectangle[]
+                {
+                    new Rectangle(0 * frameWidth, 6 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(1 * frameWidth, 6 * frameHeight, frameWidth, frameHeight),
+                },
+                2.5f
+                ));
+
+            //Use AxeRight Animation
+            animator.AddAnimation(new Animation(
+                PlayerState.UseAxeRight.ToString(),
+                useToolSheet,
+                new Rectangle[]
+                {
+                    new Rectangle(0 * frameWidth, 7 * frameHeight, frameWidth, frameHeight),
+                    new Rectangle(1 * frameWidth, 7 * frameHeight, frameWidth, frameHeight),
+                },
+                2.5f
+                ));
+
+            animator.PlayAnimation(PlayerState.IdleUp.ToString());
+            var playerCollider = playerObject.AddComponent<Collider>();
             var playerComp = playerObject.AddComponent<Player>();
             var ui = playerObject.AddComponent<UI>(playerComp);
 

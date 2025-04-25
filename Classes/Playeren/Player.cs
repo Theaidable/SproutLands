@@ -8,6 +8,8 @@ using SproutLands.Classes.CommandPattern;
 using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.Playeren.Tools;
 using System.Linq;
+using System;
+using SproutLands.Classes.UIClasses;
 
 
 namespace SproutLands.Classes.Playeren
@@ -21,8 +23,17 @@ namespace SproutLands.Classes.Playeren
         WalkingUp,
         WalkingDown,
         WalkingLeft,
-        WalkingRight
+        WalkingRight,
+        UseAxeUp,
+        UseAxeDown,
+        UseAxeLeft,
+        UseAxeRight,
+        UseHoeUp,
+        UseHoeDown,
+        UseHoeLeft,
+        UseHoeRight,
     }
+
 
     public class Player : Component, ISubject
     {
@@ -30,33 +41,59 @@ namespace SproutLands.Classes.Playeren
         private PlayerState _currentState;
         private List<IObserver> observers = new List<IObserver>();
         public Inventory Inventory { get; private set; }
+        public Tool EquippedTool { get; private set; }
+        public Vector2 FacingDirection { get; set; }
 
         public Player(GameObject gameObject) : base(gameObject)
         {
             Inventory = new Inventory();
             _animator = gameObject.GetComponent<Animator>();
-            _currentState = PlayerState.IdleDown;
-            _animator.PlayAnimation(_currentState.ToString());
+            SetState(PlayerState.IdleDown);
         }
 
         public void Attach(IObserver observer) => observers.Add(observer);
         public void Detach(IObserver observer) => observers.Remove(observer);
+
+        public void Notify()
+        {
+            foreach (var observer in observers)
+            {
+                observer.Update(this);
+            }
+        }
 
         public bool HasAxe()
         {
             return Inventory.Items.Any(item => item is Axe);
         }
 
-        public void Notify()
+        public void EquipTool(Tool tool)
         {
-            foreach (var observer in observers)
-                observer.Update(this);
+            EquippedTool = tool;
+
+            if (tool != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Equipped tool: {tool.GetType().Name}");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Unequipped tool.");
+            }
         }
 
         public void AddItemToInventory(Item item)
         {
             Inventory.AddItem(item);
             Notify();
+        }
+
+        public void AddItemToHud(int slotIndex, Item item)
+        {
+            if (slotIndex >= 0 && slotIndex < Inventory.HudSlots.Count)
+            {
+                Inventory.HudSlots[slotIndex] = item;
+                Notify(); // Opdater UI
+            }
         }
 
         public void Move(Vector2 direction)
@@ -66,9 +103,29 @@ namespace SproutLands.Classes.Playeren
 
         public void SetState(PlayerState newState)
         {
-            if (newState != _currentState)
+            bool isUseState = newState.ToString().StartsWith("Use");
+
+            if (newState != _currentState || isUseState)
             {
                 _currentState = newState;
+
+                // Opdatér retningen når du går eller bruger øksen:
+                switch (newState)
+                {
+                    case PlayerState.WalkingUp: FacingDirection = new Vector2(0, -1); break;
+                    case PlayerState.IdleUp: FacingDirection = new Vector2(0, -1); break;
+                    case PlayerState.UseAxeUp: FacingDirection = new Vector2(0, -1); break;
+                    case PlayerState.WalkingDown: FacingDirection = new Vector2(0, 1); break;
+                    case PlayerState.IdleDown: FacingDirection = new Vector2(0, 1); break;
+                    case PlayerState.UseAxeDown: FacingDirection = new Vector2(0, 1); break;
+                    case PlayerState.WalkingLeft: FacingDirection = new Vector2(-1, 0); break;
+                    case PlayerState.IdleLeft: FacingDirection = new Vector2(-1, 0); break;
+                    case PlayerState.UseAxeLeft: FacingDirection = new Vector2(-1, 0); break;
+                    case PlayerState.WalkingRight: FacingDirection = new Vector2(1, 0); break;
+                    case PlayerState.IdleRight: FacingDirection = new Vector2(1, 0); break;
+                    case PlayerState.UseAxeRight: FacingDirection=new Vector2(1, 0); break;
+                }
+
                 _animator.PlayAnimation(newState.ToString());
             }
         }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SproutLands.Classes.ComponentPattern.Items;
 
 namespace SproutLands.Classes.ComponentPattern.Objects
 {
@@ -52,6 +53,18 @@ namespace SproutLands.Classes.ComponentPattern.Objects
             
             //Debug line
             Debug.WriteLine($"{ResourceAmount} {ResourceType} dropped!");
+
+            // Tilføj til spillerens inventory:
+            if (ResourceType == "Wood")
+            {
+                for (int i = 0; i < ResourceAmount; i++)
+                {
+                    GameWorld.Instance.Player.AddItemToInventory(new WoodItem());
+                }
+            }
+
+            // Fjern træet fra verden:
+            GameWorld.Instance.GameObjects.Remove(GameObject);
         }
     }
 }

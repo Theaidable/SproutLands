@@ -1,5 +1,6 @@
 ﻿using SproutLands.Classes.Playeren;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace SproutLands.Classes.CommandPattern
 {
@@ -18,6 +19,8 @@ namespace SproutLands.Classes.CommandPattern
         {
             _player.Move(_direction);
 
+            Debug.WriteLine($"[UseTool] FacingDirection = {_player.FacingDirection}");
+
             if (_direction == new Vector2(0, -1))
             {
                 _player.SetState(PlayerState.WalkingUp);
@@ -30,7 +33,7 @@ namespace SproutLands.Classes.CommandPattern
             {
                 _player.SetState(PlayerState.WalkingLeft);
             }
-            else if (_direction == new Vector2(1,0))
+            else if (_direction == new Vector2(1, 0))
             {
                 _player.SetState(PlayerState.WalkingRight);
             }
