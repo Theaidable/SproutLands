@@ -10,10 +10,12 @@ namespace DesignPatterns.CommandPattern
     {
         private List<GameObject> gameObjects;
         private bool shouldDraw;
+
         public ToggleColliderDrawingCommand(List<GameObject> gameObjects)
         {
             this.gameObjects = gameObjects;
         }
+
         public void Execute()
         {
             shouldDraw = !shouldDraw;

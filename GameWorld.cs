@@ -139,7 +139,6 @@ public class GameWorld : Game
 
         foreach (var go in GameObjects)
         {
-            go.Awake();
             go.Start();
         }
     }
