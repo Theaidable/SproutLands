@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SproutLands.Classes.ComponentPattern.Animation
 {
@@ -6,6 +7,7 @@ namespace SproutLands.Classes.ComponentPattern.Animation
     {
         public int CurrentIndex { get; private set; }
         public Animation CurrentAnimation { get => currentAnimation; set => currentAnimation = value; }
+        public Action OnAnimationComplete;
 
         private float elapsed;
         private SpriteRenderer spriteRenderer;
@@ -29,17 +31,31 @@ namespace SproutLands.Classes.ComponentPattern.Animation
 
         public override void Update()
         {
-            if(CurrentAnimation == null)
+            if (CurrentAnimation == null)
             {
                 return;
             }
 
             elapsed += GameWorld.Instance.DeltaTime;
 
-            CurrentIndex = (int)(elapsed * CurrentAnimation.FPS % CurrentAnimation.Frames.Length);
+            if (CurrentAnimation.IsLooping)
+            {
+                CurrentIndex = (int)(elapsed * CurrentAnimation.FPS) % CurrentAnimation.Frames.Length;
+            }
+            else
+            {
+                CurrentIndex = (int)(elapsed * CurrentAnimation.FPS);
+                if (CurrentIndex >= CurrentAnimation.Frames.Length)
+                {
+                    CurrentIndex = CurrentAnimation.Frames.Length - 1;
+                    OnAnimationComplete?.Invoke();
+                    OnAnimationComplete = null;
+                }
+            }
 
             spriteRenderer.SourceRectangle = CurrentAnimation.Frames[CurrentIndex];
         }
+
         public void AddAnimation(Animation animation)
         {
             animations[animation.Name] = animation;
@@ -48,6 +64,7 @@ namespace SproutLands.Classes.ComponentPattern.Animation
                 CurrentAnimation = animation;
             }
         }
+
         public void PlayAnimation(string animationName)
         {
             if(CurrentAnimation?.Name == animationName)

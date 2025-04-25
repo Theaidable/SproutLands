@@ -122,14 +122,16 @@ public class GameWorld : Game
 
         //Load af Axe ikon på hotbar
         Texture2D axeIcon = Content.Load<Texture2D>("Assets/Sprites/Objects/Axe");
-        if (axeIcon == null)
-            Debug.WriteLine("Axe icon is missing!");
 
 
         var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
         Player = new Player(playerObject);
-        Player.AddItemToInventory(new Axe(axeIcon));
         GameObjects.Add(playerObject);
+
+        var axe = new Axe(axeIcon);
+        Player.AddItemToInventory(axe);
+        Player.AddItemToHud(0, axe);
+        Debug.WriteLine($"Axe icon: {axe.Icon}");
 
         _inputHandler.AddMouseButtonDownCommand(MouseButton.Left, new UseToolCommand(Player));
 

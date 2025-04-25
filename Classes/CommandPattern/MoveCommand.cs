@@ -30,7 +30,7 @@ namespace SproutLands.Classes.CommandPattern
             {
                 _player.SetState(PlayerState.WalkingLeft);
             }
-            else if (_direction == new Vector2(1,0))
+            else if (_direction == new Vector2(1, 0))
             {
                 _player.SetState(PlayerState.WalkingRight);
             }

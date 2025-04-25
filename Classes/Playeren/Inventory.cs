@@ -9,6 +9,8 @@ namespace SproutLands.Classes.Playeren
     {
         //Vi skal bruge en liste over items
         public List<Item> Items { get;private set; } = new List<Item>();
+        public List<Item> HudSlots { get; private set; } = new List<Item>(new Item[9]);
+
 
         /// <summary>
         /// Metode til at tilføje en item til inventory

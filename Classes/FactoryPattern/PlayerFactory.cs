@@ -157,7 +157,7 @@ namespace SproutLands.Classes.FactoryPattern
 
             //Use AxeDown
             animator.AddAnimation(new Animation(
-                PlayerState.UseAxeUp.ToString(),
+                PlayerState.UseAxeDown.ToString(),
                 useToolSheet,
                 new Rectangle[]
                 {
@@ -169,7 +169,7 @@ namespace SproutLands.Classes.FactoryPattern
 
             //Use AxeLeft Animation
             animator.AddAnimation(new Animation(
-                PlayerState.UseAxeUp.ToString(),
+                PlayerState.UseAxeLeft.ToString(),
                 useToolSheet,
                 new Rectangle[]
                 {
@@ -179,9 +179,9 @@ namespace SproutLands.Classes.FactoryPattern
                 2.5f
                 ));
 
-            //Use AxeUp Animation
+            //Use AxeRight Animation
             animator.AddAnimation(new Animation(
-                PlayerState.UseAxeUp.ToString(),
+                PlayerState.UseAxeRight.ToString(),
                 useToolSheet,
                 new Rectangle[]
                 {

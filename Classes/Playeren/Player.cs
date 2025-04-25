@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.Playeren.Tools;
 using System.Linq;
 using System;
+using SproutLands.Classes.UIClasses;
 
 
 namespace SproutLands.Classes.Playeren
@@ -33,7 +34,7 @@ namespace SproutLands.Classes.Playeren
         UseHoeRight,
     }
 
-    
+
     public class Player : Component, ISubject
     {
         private Animator _animator;
@@ -41,6 +42,7 @@ namespace SproutLands.Classes.Playeren
         private List<IObserver> observers = new List<IObserver>();
         public Inventory Inventory { get; private set; }
         public Tool EquippedTool { get; private set; }
+        public Vector2 FacingDirection { get; private set; }
 
         public Player(GameObject gameObject) : base(gameObject)
         {
@@ -53,6 +55,14 @@ namespace SproutLands.Classes.Playeren
         public void Attach(IObserver observer) => observers.Add(observer);
         public void Detach(IObserver observer) => observers.Remove(observer);
 
+        public void Notify()
+        {
+            foreach (var observer in observers)
+            {
+                observer.Update(this);
+            }
+        }
+
         public bool HasAxe()
         {
             return Inventory.Items.Any(item => item is Axe);
@@ -63,21 +73,28 @@ namespace SproutLands.Classes.Playeren
             EquippedTool = tool;
 
             if (tool != null)
+            {
                 System.Diagnostics.Debug.WriteLine($"Equipped tool: {tool.GetType().Name}");
+            }
             else
+            {
                 System.Diagnostics.Debug.WriteLine("Unequipped tool.");
-        }
-
-        public void Notify()
-        {
-            foreach (var observer in observers)
-                observer.Update(this);
+            }
         }
 
         public void AddItemToInventory(Item item)
         {
             Inventory.AddItem(item);
             Notify();
+        }
+
+        public void AddItemToHud(int slotIndex, Item item)
+        {
+            if (slotIndex >= 0 && slotIndex < Inventory.HudSlots.Count)
+            {
+                Inventory.HudSlots[slotIndex] = item;
+                Notify(); // Opdater UI
+            }
         }
 
         public void Move(Vector2 direction)

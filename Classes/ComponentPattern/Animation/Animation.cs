@@ -10,12 +10,15 @@ namespace SproutLands.Classes.ComponentPattern.Animation
         public string Name { get; private set; }
         public Texture2D SpriteSheet { get; private set; }
         public Rectangle[] Frames { get; private set; }
-        public Animation(string name, Texture2D spriteSheet, Rectangle[] frames, float fps)
+        public bool IsLooping { get; private set; }
+
+        public Animation(string name, Texture2D spriteSheet, Rectangle[] frames, float fps, bool isLooping = true)
         {
             Name = name;
             SpriteSheet = spriteSheet;
             Frames = frames;
             FPS = fps;
+            IsLooping = isLooping;
         }
     }
 }

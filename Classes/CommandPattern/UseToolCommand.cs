@@ -31,29 +31,22 @@ namespace SproutLands.Classes.CommandPattern
                 return;
             }
 
-            Use(_direction);
+            var facing = _player.FacingDirection;
 
-            if (_direction == new Vector2(0, -1))
-            {
+            if (facing == new Vector2(0, -1))
                 _player.SetState(PlayerState.UseAxeUp);
-            }
-            else if (_direction == new Vector2(0, 1))
-            {
+            else if (facing == new Vector2(0, 1))
                 _player.SetState(PlayerState.UseAxeDown);
-            }
-            else if (_direction == new Vector2(-1, 0))
-            {
+            else if (facing == new Vector2(-1, 0))
                 _player.SetState(PlayerState.UseAxeLeft);
-            }
-            else if (_direction == new Vector2(1, 0))
-            {
+            else if (facing == new Vector2(1, 0))
                 _player.SetState(PlayerState.UseAxeRight);
-            }
+
+            UseAxe(facing);
         }
 
-        public void Use(Vector2 direction)
+        public void UseAxe(Vector2 direction)
         {
-            // 2) Hent spillerens collider
             var playerCollider = _player.GameObject.GetComponent<Collider>();
             if (playerCollider == null)
             {

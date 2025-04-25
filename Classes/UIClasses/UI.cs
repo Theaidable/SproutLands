@@ -118,6 +118,14 @@ namespace SproutLands.Classes.UIClasses
                 {
                     slot.Draw(spriteBatch);
                 }
+
+                foreach (var slot in hudSlots)
+                {
+                    if (slot.Item != null && slot.Item.Icon != null)
+                    {
+                        spriteBatch.Draw(slot.Item.Icon, slot.Position, Color.White);
+                    }
+                }
             }
 
             if (showInventory == true)
@@ -144,7 +152,7 @@ namespace SproutLands.Classes.UIClasses
         {
             if(subject is Player player)
             {
-                RefreshHudbar(player.Inventory.Items);
+                RefreshHudbar(player.Inventory.HudSlots);
             }
         }
 
