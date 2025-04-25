@@ -123,6 +123,8 @@ public class GameWorld : Game
         Player.AddItemToInventory(new Axe(axeIcon));
         GameObjects.Add(playerObject);
 
+        _inputHandler.AddMouseButtonDownCommand(MouseButton.Left, new UseToolCommand(Player));
+
         // Bind 1-9 til tool valg
         _inputHandler.AddButtonDownCommand(Keys.D1, new EquipToolCommand(Player, 0));
         _inputHandler.AddButtonDownCommand(Keys.D2, new EquipToolCommand(Player, 1));

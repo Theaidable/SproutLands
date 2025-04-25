@@ -6,9 +6,18 @@ using System.Collections.Generic;
 
 namespace SproutLands.Classes.CommandPattern
 {
+
+    public enum MouseButton
+    {
+        Left,
+        Right,
+        Middle
+    }
+
     public class InputHandler
     {
         private static InputHandler instance;
+
 
         public static InputHandler Instance
         {
@@ -27,6 +36,8 @@ namespace SproutLands.Classes.CommandPattern
         private Dictionary<Keys, ICommand> keybindsButtonDown = new Dictionary<Keys, ICommand>();
         private Dictionary<Keys,ICommand> keybindsButtonUp = new Dictionary<Keys, ICommand>();
         private KeyboardState previousKeyState;
+        private Dictionary<MouseButton, ICommand> mouseButtonDownBinds = new();
+        private MouseState previousMouseState;
 
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {
@@ -41,6 +52,12 @@ namespace SproutLands.Classes.CommandPattern
         {
             keybindsButtonUp.Add(inputKey, command);
         }
+
+        public void AddMouseButtonDownCommand(MouseButton button, ICommand command)
+        {
+            mouseButtonDownBinds[button] = command;
+        }
+
 
         public void Execute()
         {
@@ -72,8 +89,24 @@ namespace SproutLands.Classes.CommandPattern
                 }
             }
 
-
             previousKeyState = keyState;
+
+
+            MouseState mouseState = Mouse.GetState();
+
+            // Venstre klik
+            if (previousMouseState.LeftButton == ButtonState.Released && mouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (mouseButtonDownBinds.TryGetValue(MouseButton.Left, out var cmd))
+                {
+                    cmd.Execute();
+                }
+            }
+
+            // Tilføj evt. højre og midterklik her senere
+
+            previousMouseState = mouseState;
+
 
         }
     }
