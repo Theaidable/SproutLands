@@ -22,7 +22,15 @@ namespace SproutLands.Classes.Playeren
         WalkingUp,
         WalkingDown,
         WalkingLeft,
-        WalkingRight
+        WalkingRight,
+        UseAxeUp,
+        UseAxeDown,
+        UseAxeLeft,
+        UseAxeRight,
+        UseHoeUp,
+        UseHoeDown,
+        UseHoeLeft,
+        UseHoeRight,
     }
 
     

@@ -13,6 +13,7 @@ namespace SproutLands.Classes.CommandPattern
     public class UseToolCommand : ICommand
     {
         private Player _player;
+        private Vector2 _direction;
         private int _damage = 50;
 
         public UseToolCommand(Player player)
@@ -26,6 +27,23 @@ namespace SproutLands.Classes.CommandPattern
             {
                 Debug.WriteLine("No axe equipped.");
                 return;
+            }
+
+            if (_direction == new Vector2(0, -1))
+            {
+                _player.SetState(PlayerState.UseAxeUp);
+            }
+            else if (_direction == new Vector2(0, 1))
+            {
+                _player.SetState(PlayerState.UseAxeDown);
+            }
+            else if (_direction == new Vector2(-1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeLeft);
+            }
+            else if (_direction == new Vector2(1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeRight);
             }
 
             // 2) Hent spillerens collider

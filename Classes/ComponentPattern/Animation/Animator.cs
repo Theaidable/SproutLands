@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
 
 namespace SproutLands.Classes.ComponentPattern.Animation
 {
@@ -18,6 +13,18 @@ namespace SproutLands.Classes.ComponentPattern.Animation
         {
             spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
+
+        public override void Start()
+        {
+            if (currentAnimation != null)
+            {
+                elapsed = 0f;
+                CurrentIndex = 0;
+                spriteRenderer.Sprite = currentAnimation.SpriteSheet;
+                spriteRenderer.SourceRectangle = currentAnimation.Frames[0];
+            }
+        }
+
         public override void Update()
         {
             if(currentAnimation == null)
