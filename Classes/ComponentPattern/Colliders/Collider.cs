@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+using SproutLands.Classes.ComponentPattern.Animation;
 using System.Collections.Generic;
 
 
@@ -10,22 +10,17 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
     {
         private Texture2D pixel;
         private SpriteRenderer spriteRenderer;
+        private Animator animator;
         private bool shouldDraw;
-        private Lazy<List<RectangleData>> pixelPerfectRectangles;
+        //private Lazy<List<RectangleData>> pixelPerfectRectangles;
         private Rectangle spriteSourceRectangle;
+        private Rectangle lastSpriteSourceRectangle;
         private Texture2D spriteTexture;
-        public List<RectangleData> PixelPerfectRectangles { get => pixelPerfectRectangles.Value; }
-        public Collider(GameObject gameObject) : base(gameObject) { }
 
-        public override void Start()
-        {
-            spriteRenderer = GameObject.GetComponent<SpriteRenderer>();
-            spriteTexture = spriteRenderer.Sprite;
-            spriteSourceRectangle = spriteRenderer.SourceRectangle ?? new Rectangle(0, 0, spriteTexture.Width, spriteTexture.Height);
-            pixel = GameWorld.Instance.Content.Load<Texture2D>("Assets/Collider/Pixel");
-            pixelPerfectRectangles = new Lazy<List<RectangleData>>(() => CreateRectangles());
-            UpdatePixelCollider();
-        }
+        public List<RectangleData> PixelPerfectRectangles { get;private set; } = new List<RectangleData>();
+
+        //public List<RectangleData> PixelPerfectRectangles { get => pixelPerfectRectangles.Value; }
+        public Collider(GameObject gameObject) : base(gameObject) { }
         public Rectangle CollisionBox
         {
             get
@@ -38,26 +33,98 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
             }
         }
 
+        public override void Awake()
+        {
+        }
+
+        public override void Start()
+        {
+            spriteRenderer = GameObject.GetComponent<SpriteRenderer>();
+            animator = GameObject.GetComponent<Animator>();
+            pixel = GameWorld.Instance.Content.Load<Texture2D>("Assets/Collider/Pixel");
+            RefreshSourceRect();
+            RebuildPixelPerfect();
+            lastSpriteSourceRectangle = spriteSourceRectangle;
+            UpdatePixelCollider();
+        }
+
+        public override void Update()
+        {
+            RefreshSourceRect();
+
+            if(spriteSourceRectangle != lastSpriteSourceRectangle)
+            {
+                RebuildPixelPerfect();
+                lastSpriteSourceRectangle= spriteSourceRectangle;
+            }
+
+            UpdatePixelCollider();
+        }
+
+        private void RefreshSourceRect()
+        {
+            if (animator != null && animator.CurrentAnimation != null)
+            {
+                spriteTexture = animator.CurrentAnimation.SpriteSheet;
+                spriteSourceRectangle = animator.CurrentAnimation.Frames[animator.CurrentIndex];
+            }
+            else
+            {
+                spriteTexture = spriteRenderer.Sprite;
+                spriteSourceRectangle = spriteRenderer.SourceRectangle ?? new Rectangle(0, 0, spriteTexture.Width, spriteTexture.Height);
+            }
+        }
+
+        private void RebuildPixelPerfect()
+        {
+            PixelPerfectRectangles.Clear();
+
+            // Hent pixel‐data linje for linje
+            var lines = new List<Color[]>();
+            for (int y = 0; y < spriteSourceRectangle.Height; y++)
+            {
+                var row = new Color[spriteSourceRectangle.Width];
+                spriteTexture.GetData(
+                    0,
+                    new Rectangle(
+                        spriteSourceRectangle.X,
+                        spriteSourceRectangle.Y + y,
+                        spriteSourceRectangle.Width, 1),
+                    row, 0,
+                    spriteSourceRectangle.Width);
+                lines.Add(row);
+            }
+
+            // Find kant‐pixels (alpha>0 + mindst én gennemsigtig nabo)
+            for (int y = 0; y < spriteSourceRectangle.Height; y++)
+            {
+                for (int x = 0; x < spriteSourceRectangle.Width; x++)
+                {
+                    if (lines[y][x].A == 0) continue;
+
+                    bool isEdge =
+                        x == 0 || x == spriteSourceRectangle.Width - 1
+                     || y == 0 || y == spriteSourceRectangle.Height - 1
+                     || lines[y][x - 1].A == 0
+                     || lines[y][x + 1].A == 0
+                     || lines[y - 1][x].A == 0
+                     || lines[y + 1][x].A == 0;
+
+                    if (isEdge)
+                        PixelPerfectRectangles.Add(new RectangleData(x, y));
+                }
+            }
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (shouldDraw)
             {
                 DrawRectangle(CollisionBox, spriteBatch);
-                if (pixelPerfectRectangles.IsValueCreated)
+                foreach (RectangleData rectangleData in PixelPerfectRectangles)
                 {
-                    foreach (var rect in pixelPerfectRectangles.Value)
-                    {
-                        DrawRectangle(rect.Rectangle, spriteBatch);
-                    }
+                    DrawRectangle(rectangleData.Rectangle, spriteBatch);
                 }
-            }
-        }
-
-        public override void Update()
-        {
-            if (pixelPerfectRectangles.IsValueCreated)
-            {
-                UpdatePixelCollider();
             }
         }
 
@@ -76,7 +143,7 @@ namespace SproutLands.Classes.ComponentPattern.Colliders
 
         private void UpdatePixelCollider()
         {
-            foreach (RectangleData rectangleData in pixelPerfectRectangles.Value)
+            foreach (RectangleData rectangleData in PixelPerfectRectangles)
             {
                 rectangleData.UpdatePosition(GameObject, spriteSourceRectangle);
             }

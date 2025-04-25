@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using System.Diagnostics;
 using SproutLands.Classes.ComponentPattern.Colliders;
+using SproutLands.Classes.ComponentPattern;
 
 namespace SproutLands.Classes.CommandPattern
 {
@@ -15,6 +16,7 @@ namespace SproutLands.Classes.CommandPattern
         private Player _player;
         private Vector2 _direction;
         private int _damage = 50;
+        private bool hit;
 
         public UseToolCommand(Player player)
         {
@@ -28,6 +30,8 @@ namespace SproutLands.Classes.CommandPattern
                 Debug.WriteLine("No axe equipped.");
                 return;
             }
+
+            Use(_direction);
 
             if (_direction == new Vector2(0, -1))
             {
@@ -45,7 +49,10 @@ namespace SproutLands.Classes.CommandPattern
             {
                 _player.SetState(PlayerState.UseAxeRight);
             }
+        }
 
+        public void Use(Vector2 direction)
+        {
             // 2) Hent spillerens collider
             var playerCollider = _player.GameObject.GetComponent<Collider>();
             if (playerCollider == null)
@@ -54,28 +61,33 @@ namespace SproutLands.Classes.CommandPattern
                 return;
             }
 
-            var hit = GameWorld.Instance.GameObjects
-                .Select(go => new
-                {
-                    Tree = go.GetComponent<Tree>(),
-                    Collider = go.GetComponent<Collider>()
-                })
-                .Where(x => x.Tree != null && x.Collider != null)
-                .FirstOrDefault(x =>
-                    x.Collider.CollisionBox.Intersects(playerCollider.CollisionBox)
-                    &&
-                    x.Collider.PixelPerfectRectangles
-                        .Any(rd => rd.Rectangle.Intersects(playerCollider.CollisionBox))
-                );
+            foreach (GameObject gameObject in GameWorld.Instance.GameObjects)
+            {
+                Tree tree = gameObject.GetComponent<Tree>();
+                Collider treeCollider = gameObject.GetComponent<Collider>();
 
-            if (hit != null)
-            {
-                hit.Tree.TakeDamage(_damage);
-                Debug.WriteLine($"Tree chopped! Damage: {_damage}");
-            }
-            else
-            {
-                Debug.WriteLine("No tree in collision range.");
+                if(tree == null || treeCollider == null)
+                {
+                    continue;
+                }
+
+                if (!playerCollider.CollisionBox.Intersects(treeCollider.CollisionBox))
+                {
+                    continue;
+                }
+
+                hit = playerCollider.PixelPerfectRectangles.Any(pr => treeCollider.PixelPerfectRectangles.Any(tr => pr.Rectangle.Intersects(tr.Rectangle)));
+
+                if(hit == true)
+                {
+                    tree.TakeDamage(_damage);
+                    Debug.WriteLine($"Tree chopped! Damage: {_damage}");
+                    break;
+                }
+                else
+                {
+                    Debug.WriteLine("No tree in collision range.");
+                }
             }
         }
     }
