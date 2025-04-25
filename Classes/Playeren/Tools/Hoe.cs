@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SproutLands.Classes.Playeren.Tools
 {
-    class Hoe
+    public class Hoe : Tool
     {
+
     }
 }
