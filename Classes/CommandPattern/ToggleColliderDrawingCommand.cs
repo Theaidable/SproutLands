@@ -1,9 +1,8 @@
-﻿using DesignPatterns.ComponentPattern;
+﻿using SproutLands.Classes.CommandPattern;
+using SproutLands.Classes.ComponentPattern;
+using SproutLands.Classes.ComponentPattern.Colliders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesignPatterns.CommandPattern
 {
