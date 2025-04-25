@@ -14,6 +14,7 @@ using SproutLands.Classes.StatePattern.SoilState.SoilStates;
 using SproutLands.Classes.UIClasses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace SproutLands;
@@ -115,7 +116,7 @@ public class GameWorld : Game
         //Load af Axe ikon på hotbar
         Texture2D axeIcon = Content.Load<Texture2D>("Assets/Sprites/Objects/Axe");
         if (axeIcon == null)
-            Console.WriteLine("Axe icon is missing!");
+            Debug.WriteLine("Axe icon is missing!");
 
 
         var playerObject = PlayerFactory.Instance.Create(new Vector2(_graphics.PreferredBackBufferWidth / 2 + 200, _graphics.PreferredBackBufferHeight / 2 + 350));
