@@ -14,7 +14,6 @@ namespace SproutLands.Classes.CommandPattern
     public class UseToolCommand : ICommand
     {
         private Player _player;
-        private Vector2 _direction;
         private int _damage = 50;
         private bool hit;
 
@@ -25,28 +24,39 @@ namespace SproutLands.Classes.CommandPattern
 
         public void Execute()
         {
+            Debug.WriteLine($"[UseTool] FacingDirection = {_player.FacingDirection}");
+
             if (_player.EquippedTool is not Axe)
             {
                 Debug.WriteLine("No axe equipped.");
                 return;
             }
 
-            var facing = _player.FacingDirection;
-
-            if (facing == new Vector2(0, -1))
-                _player.SetState(PlayerState.UseAxeUp);
-            else if (facing == new Vector2(0, 1))
-                _player.SetState(PlayerState.UseAxeDown);
-            else if (facing == new Vector2(-1, 0))
-                _player.SetState(PlayerState.UseAxeLeft);
-            else if (facing == new Vector2(1, 0))
-                _player.SetState(PlayerState.UseAxeRight);
-
-            UseAxe(facing);
+            UseAxe(_player.FacingDirection);
         }
 
         public void UseAxe(Vector2 direction)
         {
+            if(direction == new Vector2(0, -1))
+            {
+                _player.SetState(PlayerState.UseAxeUp);
+
+            }
+            else if(direction == new Vector2(0, 1))
+            {
+                _player.SetState(PlayerState.UseAxeDown);
+
+            }
+            else if(direction == new Vector2(-1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeLeft);
+
+            }
+            else if(direction == new Vector2(1, 0))
+            {
+                _player.SetState(PlayerState.UseAxeRight);
+            }
+
             var playerCollider = _player.GameObject.GetComponent<Collider>();
             if (playerCollider == null)
             {

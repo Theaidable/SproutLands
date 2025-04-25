@@ -131,7 +131,6 @@ public class GameWorld : Game
         var axe = new Axe(axeIcon);
         Player.AddItemToInventory(axe);
         Player.AddItemToHud(0, axe);
-        Debug.WriteLine($"Axe icon: {axe.Icon}");
 
         _inputHandler.AddMouseButtonDownCommand(MouseButton.Left, new UseToolCommand(Player));
 
