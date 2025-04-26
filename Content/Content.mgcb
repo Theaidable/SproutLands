@@ -409,54 +409,6 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Sprites/Character_Cut/IdleSprites/Idle_007.png
 
-#begin Assets/Sprites/Character_Cut/tile000.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/tile000.png
-
-#begin Assets/Sprites/Character_Cut/tile000.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/tile000.png
-
-#begin Assets/Sprites/Character_Cut/tile001.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/tile001.png
-
-#begin Assets/Sprites/Character_Cut/tile001.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/tile001.png
-
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_000.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -467,7 +419,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_000.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_000.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingDown_1.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_001.png
 /importer:TextureImporter
@@ -479,7 +431,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_001.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_001.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingDown_0.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_002.png
 /importer:TextureImporter
@@ -491,7 +443,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_002.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_002.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingUp_0.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_003.png
 /importer:TextureImporter
@@ -503,7 +455,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_003.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_003.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingUp_1.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_004.png
 /importer:TextureImporter
@@ -515,7 +467,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_004.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_004.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingLeft_0.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_005.png
 /importer:TextureImporter
@@ -527,7 +479,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_005.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_005.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingLeft_1.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_006.png
 /importer:TextureImporter
@@ -539,7 +491,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_006.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_006.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingRight_0.png
 
 #begin Assets/Sprites/Character_Cut/WalkingSprites/Walking_007.png
 /importer:TextureImporter
@@ -551,7 +503,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_007.png
+/build:Assets/Sprites/Character_Cut/WalkingSprites/Walking_007.png;Assets/Sprites/Character_Cut/WalkingSprites/WalkingRight_1.png
 
 #begin Assets/Sprites/Characters/Charakter_Actions.png
 /importer:TextureImporter
