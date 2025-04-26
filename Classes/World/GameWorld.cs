@@ -11,6 +11,8 @@ using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
 using SproutLands.Classes.DesignPatterns.Command;
 using SproutLands.Classes.World.Tiles;
 using SproutLands.Classes.World.Tiles.SoilStates;
+using SproutLands.Classes.UI;
+using SproutLands.Classes.Items;
 
 namespace SproutLands.Classes.World;
 
@@ -61,7 +63,7 @@ public class GameWorld : Game, ISubject
 
     //Lister
     public List<GameObject> GameObjects { get; private set; } = new List<GameObject>();
-    private readonly List<IObServer> listeners = new List<IObServer>();
+    private readonly List<IObserver> listeners = new List<IObserver>();
 
     //Deltatime property
     public float DeltaTime { get; private set; }
@@ -88,6 +90,8 @@ public class GameWorld : Game, ISubject
             gameObject.Awake();
         }
 
+        InputHandler.Instance.AddButtonDownCommand(Keys.K, new ToggleColliderDrawingCommand(GameObjects));
+
         base.Initialize();
     }
 
@@ -99,7 +103,17 @@ public class GameWorld : Game, ISubject
         SpawnTrees();
 
         //Spawn Player
-        GameObjects.Add(PlayerFactory.Instance.Create(new Vector2(15 * 64, 13 * 64)));
+        GameObject playerObject = PlayerFactory.Instance.Create(new Vector2(15 * 64, 13 * 64));
+        GameObjects.Add(playerObject);
+
+        Hudbar hudbar = playerObject.GetComponent<Hudbar>();
+
+        if(hudbar != null)
+        {
+            Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe/Axe");
+            Axe axe = new Axe(axeIcon);
+            hudbar.AddItemToHud(axe);
+        }
 
         foreach (GameObject gameObject in GameObjects)
         {
@@ -267,19 +281,19 @@ public class GameWorld : Game, ISubject
         GameObjects.Add(TreeFactory.Instance.Create(new Vector2(15 * 64, 8 * 64), TreeType.Tree3));
     }
 
-    public void Attach(IObServer observer)
+    public void Attach(IObserver observer)
     {
         listeners.Add(observer);
     }
 
-    public void Detach(IObServer observer)
+    public void Detach(IObserver observer)
     {
         listeners.Remove(observer);
     }
 
     public void Notify()
     {
-        foreach (IObServer observer in listeners)
+        foreach (IObserver observer in listeners)
         {
             observer.Updated();
         }

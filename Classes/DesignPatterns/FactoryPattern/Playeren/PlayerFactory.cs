@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.Composite.Components;
+using SproutLands.Classes.UI;
 
 namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 {
@@ -28,6 +29,8 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             var spriteRenderer = playerObject.AddComponent<SpriteRenderer>();
             var animator = playerObject.AddComponent<Animator>();
             var collider = playerObject.AddComponent<Collider>();
+            var hudbar = playerObject.AddComponent<Hudbar>();
+            var inventory = playerObject.AddComponent<Inventory>();
             var player = playerObject.AddComponent<Player>();
 
             playerObject.Transform.Position = position;

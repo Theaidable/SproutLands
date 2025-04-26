@@ -8,9 +8,9 @@ namespace SproutLands.Classes.DesignPatterns.Observer
 {
     public interface ISubject
     {
-        void Attach(IObServer observer);
+        void Attach(IObserver observer);
 
-        void Detach(IObServer observer);
+        void Detach(IObserver observer);
         void Notify();
     }
 }

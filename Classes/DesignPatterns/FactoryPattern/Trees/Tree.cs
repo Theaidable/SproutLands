@@ -30,5 +30,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
                 GameWorld.Instance.GameObjects.Remove(GameObject);
             }
         }
+
+        //public void DropRessources() metode skal laves når collider mellem axe og tree virker
     }
 }

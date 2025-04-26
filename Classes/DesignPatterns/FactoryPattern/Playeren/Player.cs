@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.DesignPatterns.Command;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.Composite.Components;
+using SproutLands.Classes.Items;
+using SproutLands.Classes.UI;
 using SproutLands.Classes.World;
 
 
@@ -11,20 +13,30 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 {
     public class Player : Component
     {
-        public float MovementSpeed { get; private set; }
         private Vector2 moveDirection;
         private Animator animator;
+        private Inventory inventory;
 
-        //Animationer arrays
+        //Walk animation frames
         private Texture2D[] walkUpFrames;
         private Texture2D[] walkDownFrames;
         private Texture2D[] walkLeftFrames;
         private Texture2D[] walkRightFrames;
 
+        //Idle animation frames
         private Texture2D[] idleUpFrames;
         private Texture2D[] idleDownFrames;
         private Texture2D[] idleLeftFrames;
         private Texture2D[] idleRightFrames;
+
+        //Use axe animation frames
+        private Texture2D[] useAxeUpFrames;
+        private Texture2D[] useAxeDownFrames;
+        private Texture2D[] useAxeLeftFrames;
+        private Texture2D[] useAxeRightFrames;
+
+        public float MovementSpeed { get; private set; }
+        public Item EquippedItem { get; private set; }
 
         public Player(GameObject gameObject): base(gameObject)
         {
@@ -35,6 +47,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         public override void Start()
         {
             animator = GameObject.GetComponent<Animator>();
+            inventory = GameObject.GetComponent<Inventory>();
             AddAnimations();
             BindCommands();
             animator.PlayAnimation("IdleDown");
@@ -47,30 +60,49 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             PlayWalkAnimation(direction);
         }
 
+        public void EquipItem(Item item)
+        {
+            EquippedItem = item;
+        }
+
         private void AddAnimations()
         {
-            // Walking
+            //Walking
             walkUpFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingUp", 2);
             walkDownFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingDown", 2);
             walkLeftFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingLeft", 2);
             walkRightFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingRight", 2);
 
-            // Idle
+            //Idle
             idleUpFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleUp", 2);
             idleDownFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleDown", 2);
             idleLeftFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleLeft", 2);
             idleRightFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleRight", 2);
 
-            // Tilføj animationer til animator
+            //Use Axe
+            useAxeUpFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeUp", 2);
+            useAxeDownFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeDown", 2);
+            useAxeLeftFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeLeft", 2);
+            useAxeRightFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeRight", 2);
+
+
+            //Tilføj walking animationer
             animator.AddAnimation(new Animation("WalkUp", 2.5f, true, walkUpFrames));
             animator.AddAnimation(new Animation("WalkDown", 2.5f, true, walkDownFrames));
             animator.AddAnimation(new Animation("WalkLeft", 2.5f, true, walkLeftFrames));
             animator.AddAnimation(new Animation("WalkRight", 2.5f, true, walkRightFrames));
 
+            //Tilføj idle animationer
             animator.AddAnimation(new Animation("IdleUp", 2.5f, true, idleUpFrames));
             animator.AddAnimation(new Animation("IdleDown", 2.5f, true, idleDownFrames));
             animator.AddAnimation(new Animation("IdleLeft", 2.5f, true, idleLeftFrames));
             animator.AddAnimation(new Animation("IdleRight", 2.5f, true, idleRightFrames));
+
+            //Tilføj use axe animationer
+            animator.AddAnimation(new Animation("UseAxeUp", 2.5f, false, useAxeUpFrames));
+            animator.AddAnimation(new Animation("UseAxeDown", 2.5f, false, useAxeDownFrames));
+            animator.AddAnimation(new Animation("UseAxeLeft", 2.5f, false, useAxeLeftFrames));
+            animator.AddAnimation(new Animation("UseAxeRight", 2.5f, false, useAxeRightFrames));
         }
 
         private Texture2D[] LoadFrames(string basePath, int frameCount)
@@ -123,6 +155,26 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
         }
 
+        public void PlayUseToolAnimation(Vector2 direction)
+        {
+            if(direction.Y < 0)
+            {
+                animator.PlayAnimation("UseAxeUp");
+            }
+            else if (direction.Y > 0)
+            {
+                animator.PlayAnimation("UseAxeDown");
+            }
+            else if (direction.X < 0)
+            {
+                animator.PlayAnimation("UseAxeLeft");
+            }
+            else if(direction.X > 0)
+            {
+                animator.PlayAnimation("UseAxeRight");
+            }
+        }
+
         public void Stop()
         {
             PlayIdleAnimation(moveDirection);
@@ -130,15 +182,34 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 
         private void BindCommands()
         {
+            //Bevæg spilleren
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(new Vector2(0, -1), this));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(new Vector2(-1, 0), this));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(new Vector2(0, 1), this));
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(new Vector2(1, 0), this));
 
+            //Gå til idle hvis man stopper med at gå
             InputHandler.Instance.AddButtonUpCommand(Keys.W, new StopCommand(this));
             InputHandler.Instance.AddButtonUpCommand(Keys.A, new StopCommand(this));
             InputHandler.Instance.AddButtonUpCommand(Keys.S, new StopCommand(this));
             InputHandler.Instance.AddButtonUpCommand(Keys.D, new StopCommand(this));
+
+            //Åben og luk inventory
+            InputHandler.Instance.AddButtonDownCommand(Keys.I, new OpenInventoryCommand(inventory));
+
+            //Equip items fra hudbar
+            InputHandler.Instance.AddButtonDownCommand(Keys.D1, new EquipItemCommand(this, 0));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D2, new EquipItemCommand(this, 1));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D3, new EquipItemCommand(this, 2));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D4, new EquipItemCommand(this, 3));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D5, new EquipItemCommand(this, 4));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D6, new EquipItemCommand(this, 5));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D7, new EquipItemCommand(this, 6));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D8, new EquipItemCommand(this, 7));
+            InputHandler.Instance.AddButtonDownCommand(Keys.D9, new EquipItemCommand(this, 8));
+
+            //Brug item
+            InputHandler.Instance.AddMouseButtonDownCommand(MouseButton.Left, new UseToolCommand(this));
         }
     }
 }
