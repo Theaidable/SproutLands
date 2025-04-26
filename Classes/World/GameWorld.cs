@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.Observer;
-using SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil.SoilStates;
 using SproutLands.Classes.DesignPatterns.Composite.Components;
-using SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil;
 using SproutLands.Classes.DesignPatterns.FactoryPattern.Trees;
+using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
+using SproutLands.Classes.DesignPatterns.Command;
+using SproutLands.Classes.World.Tiles;
+using SproutLands.Classes.World.Tiles.SoilStates;
 
-namespace SproutLands;
+namespace SproutLands.Classes.World;
 
 public class GameWorld : Game, ISubject
 {
@@ -32,7 +34,7 @@ public class GameWorld : Game, ISubject
     }
 
     //Map Layout
-    
+
     private int[,] tileMap =
     {
         {0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -54,7 +56,7 @@ public class GameWorld : Game, ISubject
         {0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         {0 ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
-    
+
     private int tileSize = 64;
 
     //Lister
@@ -96,6 +98,9 @@ public class GameWorld : Game, ISubject
         CreateLevel();
         SpawnTrees();
 
+        //Spawn Player
+        GameObjects.Add(PlayerFactory.Instance.Create(new Vector2(15 * 64, 13 * 64)));
+
         foreach (GameObject gameObject in GameObjects)
         {
             gameObject.Start();
@@ -108,6 +113,8 @@ public class GameWorld : Game, ISubject
             Exit();
 
         DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        InputHandler.Instance.Execute();
 
         foreach (GameObject gameObject in GameObjects)
         {

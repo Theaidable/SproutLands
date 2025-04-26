@@ -2,8 +2,9 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using SproutLands.Classes.World.Tiles;
 
-namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil.SoilStates
+namespace SproutLands.Classes.World.Tiles.SoilStates
 {
     /// <summary>
     /// Enum til at bestemme hvilken type normal jord der skal bruges
@@ -51,7 +52,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil.Soi
 
             var spriteRenderer = soil.GameObject.GetComponent<SpriteRenderer>();
 
-            if(spriteRenderer != null)
+            if (spriteRenderer != null)
             {
                 spriteRenderer.SetSprite("Assets/Sprites/Tilesets/Grass", sourceRectangle);
             }

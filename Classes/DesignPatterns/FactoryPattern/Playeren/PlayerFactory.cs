@@ -27,9 +27,11 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             var playerObject = new GameObject();
             var spriteRenderer = playerObject.AddComponent<SpriteRenderer>();
             var animator = playerObject.AddComponent<Animator>();
+            var collider = playerObject.AddComponent<Collider>();
             var player = playerObject.AddComponent<Player>();
 
             playerObject.Transform.Position = position;
+            spriteRenderer.SetSprite("Assets/CharacterSprites/IdleSprites/IdleDown_000");
 
             return playerObject;
         }

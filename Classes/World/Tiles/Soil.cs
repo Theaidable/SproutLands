@@ -1,5 +1,6 @@
-﻿
-namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil
+﻿using SproutLands.Classes.DesignPatterns.Composite;
+
+namespace SproutLands.Classes.World.Tiles
 {
     public class Soil : Component
     {
@@ -23,7 +24,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil
         /// </summary>
         public override void Update()
         {
-            if(CurrentState != null)
+            if (CurrentState != null)
             {
                 CurrentState.Update();
             }

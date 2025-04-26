@@ -1,9 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SproutLands.Classes.World;
 
 
 namespace SproutLands.Classes.DesignPatterns.Composite.Components
 {
+    public enum SpriteType
+    {
+        Sprite,
+        Rectangle
+    }
+
     public class SpriteRenderer : Component
     {
         public Vector2 Origin { get; set; }

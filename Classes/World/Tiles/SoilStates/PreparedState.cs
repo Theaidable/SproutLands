@@ -1,10 +1,9 @@
 ﻿using SproutLands.Classes.DesignPatterns.Composite.Components;
 using Microsoft.Xna.Framework;
-using SharpDX.Win32;
 using System.Collections.Generic;
 using System;
 
-namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil.SoilStates
+namespace SproutLands.Classes.World.Tiles.SoilStates
 {
     /// <summary>
     /// Enum til at bestemme hvilken type prepared jord der skal bruges

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SproutLands.Classes.DesignPatterns.Command;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.Composite.Components;
+using SproutLands.Classes.World;
 
 
 namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
@@ -36,6 +37,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             animator = GameObject.GetComponent<Animator>();
             AddAnimations();
             BindCommands();
+            animator.PlayAnimation("IdleDown");
         }
 
         public void Move(Vector2 direction)
@@ -48,27 +50,27 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         private void AddAnimations()
         {
             // Walking
-            walkUpFrames = LoadFrames("Assets/Sprites/Character_Cut/WalkingSprites/Walking_", 2);
-            walkDownFrames = LoadFrames("Assets/Sprites/Character_Cut/WalkDown_", 2);
-            walkLeftFrames = LoadFrames("Assets/Sprites/Character_Cut/WalkLeft_", 2);
-            walkRightFrames = LoadFrames("Assets/Sprites/Character_Cut/WalkRight_", 2);
+            walkUpFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingUp", 2);
+            walkDownFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingDown", 2);
+            walkLeftFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingLeft", 2);
+            walkRightFrames = LoadFrames("Assets/CharacterSprites/WalkingSprites/WalkingRight", 2);
 
             // Idle
-            idleUpFrames = LoadFrames("Assets/Sprites/Character_Cut/IdleUp_", 2);
-            idleDownFrames = LoadFrames("Assets/Sprites/Character_Cut/IdleDown_", 2);
-            idleLeftFrames = LoadFrames("Assets/Sprites/Character_Cut/IdleLeft_", 2);
-            idleRightFrames = LoadFrames("Assets/Sprites/Character_Cut/IdleRight_", 2);
+            idleUpFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleUp", 2);
+            idleDownFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleDown", 2);
+            idleLeftFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleLeft", 2);
+            idleRightFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleRight", 2);
 
             // Tilføj animationer til animator
-            animator.AddAnimation(new Animation("WalkUp", 8f, true, walkUpFrames));
-            animator.AddAnimation(new Animation("WalkDown", 8f, true, walkDownFrames));
-            animator.AddAnimation(new Animation("WalkLeft", 8f, true, walkLeftFrames));
-            animator.AddAnimation(new Animation("WalkRight", 8f, true, walkRightFrames));
+            animator.AddAnimation(new Animation("WalkUp", 2.5f, true, walkUpFrames));
+            animator.AddAnimation(new Animation("WalkDown", 2.5f, true, walkDownFrames));
+            animator.AddAnimation(new Animation("WalkLeft", 2.5f, true, walkLeftFrames));
+            animator.AddAnimation(new Animation("WalkRight", 2.5f, true, walkRightFrames));
 
-            animator.AddAnimation(new Animation("IdleUp", 1f, true, idleUpFrames));
-            animator.AddAnimation(new Animation("IdleDown", 1f, true, idleDownFrames));
-            animator.AddAnimation(new Animation("IdleLeft", 1f, true, idleLeftFrames));
-            animator.AddAnimation(new Animation("IdleRight", 1f, true, idleRightFrames));
+            animator.AddAnimation(new Animation("IdleUp", 2.5f, true, idleUpFrames));
+            animator.AddAnimation(new Animation("IdleDown", 2.5f, true, idleDownFrames));
+            animator.AddAnimation(new Animation("IdleLeft", 2.5f, true, idleLeftFrames));
+            animator.AddAnimation(new Animation("IdleRight", 2.5f, true, idleRightFrames));
         }
 
         private Texture2D[] LoadFrames(string basePath, int frameCount)
@@ -76,7 +78,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             Texture2D[] frames = new Texture2D[frameCount];
             for (int i = 0; i < frameCount; i++)
             {
-                frames[i] = GameWorld.Instance.Content.Load<Texture2D>($"{basePath}{i}");
+                frames[i] = GameWorld.Instance.Content.Load<Texture2D>($"{basePath}_00{i}");
             }
             return frames;
         }
@@ -87,7 +89,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             {
                 animator.PlayAnimation("WalkUp");
             }
-            else if(direction.Y > 1)
+            else if(direction.Y > 0)
             {
                 animator.PlayAnimation("WalkDown");
             }
@@ -107,7 +109,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             {
                 animator.PlayAnimation("IdleUp");
             }
-            else if(direction.Y > 1)
+            else if(direction.Y > 0)
             {
                 animator.PlayAnimation("IdleDown");
             }
@@ -117,7 +119,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
             else if(direction.X > 0)
             {
-                animator.PlayAnimation("ÍdleRight");
+                animator.PlayAnimation("IdleRight");
             }
         }
 
@@ -132,6 +134,11 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(new Vector2(-1, 0), this));
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(new Vector2(0, 1), this));
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(new Vector2(1, 0), this));
+
+            InputHandler.Instance.AddButtonUpCommand(Keys.W, new StopCommand(this));
+            InputHandler.Instance.AddButtonUpCommand(Keys.A, new StopCommand(this));
+            InputHandler.Instance.AddButtonUpCommand(Keys.S, new StopCommand(this));
+            InputHandler.Instance.AddButtonUpCommand(Keys.D, new StopCommand(this));
         }
     }
 }
