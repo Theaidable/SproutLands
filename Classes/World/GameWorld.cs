@@ -232,12 +232,12 @@ public class GameWorld : Game, ISubject
     private void CreateWaterTile(Vector2 position)
     {
         var waterObject = new GameObject();
-        var spriteRenderer = waterObject.AddComponent<SpriteRenderer>();
+        var waterRenderer = waterObject.AddComponent<SpriteRenderer>();
         var waterAnimation = waterObject.AddComponent<Animator>();
 
         waterObject.Transform.Position = position;
-        spriteRenderer.Sprite = Content.Load<Texture2D>("Assets/Sprites/Tilesets/Water");
-        spriteRenderer.SourceRectangle = new Rectangle(0, 0, tileSize, tileSize);
+        waterRenderer.Sprite = Content.Load<Texture2D>("Assets/Sprites/Tilesets/Water");
+        waterRenderer.SourceRectangle = new Rectangle(0, 0, tileSize, tileSize);
 
         Rectangle[] frames = new Rectangle[4];
         for (int i = 0; i < frames.Length; i++)
@@ -259,7 +259,7 @@ public class GameWorld : Game, ISubject
     {
         var soilObject = new GameObject();
         var soilState = soilObject.AddComponent<Soil>();
-        soilObject.AddComponent<SpriteRenderer>();
+        var soilRenderer = soilObject.AddComponent<SpriteRenderer>();
         soilObject.Transform.Position = position;
         soilState.SetState(initialState);
         GameObjects.Add(soilObject);

@@ -517,6 +517,18 @@
 /processorParam:TextureFormat=Color
 /build:Assets/ItemSprites/Axe/Axe.png
 
+#begin Assets/ItemSprites/BigLog.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/ItemSprites/BigLog.png
+
 #begin Assets/Sprites/Characters/Charakter_Actions.png
 /importer:TextureImporter
 /processor:TextureProcessor

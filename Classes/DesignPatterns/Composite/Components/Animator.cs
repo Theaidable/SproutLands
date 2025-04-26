@@ -17,6 +17,8 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
     {
         //Fields
         public int CurrentIndex { get; private set; }
+        public Animation CurrentAnimation { get => currentAnimation; set => currentAnimation = value; }
+
         private float elapsed;
         private SpriteRenderer spriteRenderer;
         private Dictionary<string, Animation> animations = new Dictionary<string, Animation>();
@@ -39,52 +41,54 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         /// </summary>
         public override void Update()
         {
-            if(currentAnimation == null)
+            if(CurrentAnimation == null)
             {
                 return;
             }
 
             elapsed += GameWorld.Instance.DeltaTime;
-            CurrentIndex = (int)(elapsed * currentAnimation.FPS);
+            CurrentIndex = (int)(elapsed * CurrentAnimation.FPS);
             bool animationEnded = false;
 
-            switch (currentAnimation.Type)
+            switch (CurrentAnimation.Type)
             {
                 case AnimationType.Sprite:
-                    if(CurrentIndex >= currentAnimation.Sprites.Length)
+                    if(CurrentIndex >= CurrentAnimation.Sprites.Length)
                     {
-                        if(currentAnimation.Loop == true)
+                        if(CurrentAnimation.Loop == true)
                         {
                             elapsed = 0;
                             CurrentIndex = 0;
                         }
                         else
                         {
-                            CurrentIndex = currentAnimation.Sprites.Length - 1;
+                            CurrentIndex = CurrentAnimation.Sprites.Length - 1;
                             animationEnded = true;
                         }
                     }
 
-                    spriteRenderer.Sprite = currentAnimation.Sprites[CurrentIndex];
+                    spriteRenderer.Sprite = CurrentAnimation.Sprites[CurrentIndex];
                     spriteRenderer.SourceRectangle = null;
+                    spriteRenderer.InvokeOnSpriteChanged();
                     break;
 
                 case AnimationType.Rectangle:
-                    if(CurrentIndex >= currentAnimation.Rectangles.Length)
+                    if(CurrentIndex >= CurrentAnimation.Rectangles.Length)
                     {
-                        if(currentAnimation.Loop == true)
+                        if(CurrentAnimation.Loop == true)
                         {
                             elapsed = 0;
                             CurrentIndex = 0;
                         }
                         else
                         {
-                            CurrentIndex = currentAnimation.Rectangles.Length - 1;
+                            CurrentIndex = CurrentAnimation.Rectangles.Length - 1;
                             animationEnded = true;
                         }
                     }
 
-                    spriteRenderer.SourceRectangle = currentAnimation.Rectangles[CurrentIndex];
+                    spriteRenderer.SourceRectangle = CurrentAnimation.Rectangles[CurrentIndex];
+                    spriteRenderer.InvokeOnSpriteChanged();
                     break;
             }
 
@@ -106,9 +110,9 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         public void AddAnimation(Animation animation)
         {
             animations.Add(animation.Name, animation);
-            if (currentAnimation == null)
+            if (CurrentAnimation == null)
             {
-                currentAnimation = animation;
+                CurrentAnimation = animation;
             }
         }
 
@@ -118,9 +122,9 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         /// <param name="animationName"></param>
         public void PlayAnimation(string animationName)
         {
-            if (animationName != currentAnimation.Name)
+            if (animationName != CurrentAnimation.Name)
             {
-                currentAnimation = animations[animationName];
+                CurrentAnimation = animations[animationName];
                 elapsed = 0;
                 CurrentIndex = 0;
             }

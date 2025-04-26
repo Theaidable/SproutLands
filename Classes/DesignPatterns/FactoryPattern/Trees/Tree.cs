@@ -1,5 +1,10 @@
-﻿using SproutLands.Classes.DesignPatterns.Composite;
+﻿using Microsoft.Xna.Framework.Graphics;
+using SproutLands.Classes.DesignPatterns.Composite;
+using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
+using SproutLands.Classes.Items;
+using SproutLands.Classes.UI;
 using SproutLands.Classes.World;
+using System.Linq;
 
 
 namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
@@ -27,10 +32,34 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
             if(Health <= 0)
             {
                 IsChopped = true;
+                DropRessources();
                 GameWorld.Instance.GameObjects.Remove(GameObject);
             }
         }
 
-        //public void DropRessources() metode skal laves når collider mellem axe og tree virker
+        private void DropRessources()
+        {
+            GameObject playerObject = GameWorld.Instance.GameObjects.FirstOrDefault(go => go.GetComponent<Player>() != null);
+
+            if(playerObject == null)
+            {
+                return;
+            }
+
+            Inventory inventory = playerObject.GetComponent<Inventory>();
+
+            if(inventory == null)
+            {
+                return;
+            }
+
+            Texture2D woodIcon = GameWorld.Instance.Content.Load<Texture2D>("Assets/ItemSprites/BigLog");
+
+            for (int i = 0; i < 5; i++)
+            {
+                WoodItem wood = new WoodItem(woodIcon);
+                inventory.AddItemToInventory(wood);
+            }
+        }
     }
 }

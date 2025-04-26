@@ -23,7 +23,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
         {
             { TreeType.Tree1, new Rectangle(0, 0, 60, 110) },
             { TreeType.Tree2, new Rectangle(70, 0, 110, 130) },
-            { TreeType.Tree3, new Rectangle(195, 0, 110, 130) }
+            { TreeType.Tree3, new Rectangle(195, 0, 120, 130) }
         };
 
         //Oprettelse af Singleton for TreeFactory

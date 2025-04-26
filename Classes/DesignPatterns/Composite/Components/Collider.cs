@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SproutLands.Classes.World;
 using System;
@@ -17,7 +15,6 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
 
         public List<RectangleData> PixelPerfectRectangles { get => pixelPerfectRectangles.Value; }
 
-        //Tom Constructor på grund af nedarvning
         public Collider(GameObject gameObject) : base(gameObject) { }
 
         /// <summary>
@@ -27,7 +24,9 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         {
             spriteRenderer = GameObject.GetComponent<SpriteRenderer>();
             pixel = GameWorld.Instance.Content.Load<Texture2D>("Assets/Collider/Pixel");
+            spriteRenderer.OnSpriteChanged += RebuildCollider;
             pixelPerfectRectangles = new Lazy<List<RectangleData>>(() => CreateRectangles());
+            UpdatePixelCollider();
         }
 
         /// <summary>
@@ -37,11 +36,13 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         {
             get
             {
+                int width = spriteRenderer.SourceRectangle?.Width ?? spriteRenderer.Sprite.Width;
+                int height = spriteRenderer.SourceRectangle?.Height ?? spriteRenderer.Sprite.Height;
                 return new Rectangle(
-                    (int)(GameObject.Transform.Position.X - spriteRenderer.Sprite.Width / 2),
-                    (int)(GameObject.Transform.Position.Y - spriteRenderer.Sprite.Height / 2),
-                    spriteRenderer.Sprite.Width,
-                    spriteRenderer.Sprite.Height);
+                    (int)(GameObject.Transform.Position.X - width / 2),
+                    (int)(GameObject.Transform.Position.Y - height / 2),
+                    width,
+                    height);
             }
         }
 
@@ -56,14 +57,23 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
             }
         }
 
+        private void RebuildCollider()
+        {
+            pixelPerfectRectangles = new Lazy<List<RectangleData>>(() => CreateRectangles());
+            UpdatePixelCollider();
+        }
+
         /// <summary>
         /// Hjælpemetode til at opdatere vores pixelcollider
         /// </summary>
         private void UpdatePixelCollider()
         {
+            int width = spriteRenderer.SourceRectangle?.Width ?? spriteRenderer.Sprite.Width;
+            int height = spriteRenderer.SourceRectangle?.Height ?? spriteRenderer.Sprite.Height;
+
             for (int i = 0; i < pixelPerfectRectangles.Value.Count; i++)
             {
-                pixelPerfectRectangles.Value[i].UpdatePosition(GameObject, spriteRenderer.Sprite.Width, spriteRenderer.Sprite.Height);
+                pixelPerfectRectangles.Value[i].UpdatePosition(GameObject, width, height);
             }
         }
 
@@ -121,12 +131,18 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         {
             List<Color[]> lines = new List<Color[]>();
 
-            for (int y = 0; y < spriteRenderer.Sprite.Height; y++)
+            int startX = spriteRenderer.SourceRectangle?.X ?? 0;
+            int startY = spriteRenderer.SourceRectangle?.Y ?? 0;
+            int width = spriteRenderer.SourceRectangle?.Width ?? spriteRenderer.Sprite.Width;
+            int height = spriteRenderer.SourceRectangle?.Height ?? spriteRenderer.Sprite.Height;
+
+            for (int y = 0; y < height; y++)
             {
-                Color[] colors = new Color[spriteRenderer.Sprite.Width];
-                spriteRenderer.Sprite.GetData(0, new Rectangle(0, y, spriteRenderer.Sprite.Width, 1), colors, 0, spriteRenderer.Sprite.Width);
+                Color[] colors = new Color[width];
+                spriteRenderer.Sprite.GetData(0, new Rectangle(startX, startY + y, width, 1), colors, 0, width);
                 lines.Add(colors);
             }
+
             List<RectangleData> returnListOfRectangles = new List<RectangleData>();
             for (int y = 0; y < lines.Count; y++)
             {
@@ -142,9 +158,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
                             || (y > 0 && lines[y - 1][x].A == 0)
                             || (y < lines.Count - 1 && lines[y + 1][x].A == 0))
                         {
-
                             RectangleData rd = new RectangleData(x, y);
-
                             returnListOfRectangles.Add(rd);
                         }
                     }
@@ -152,6 +166,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
             }
             return returnListOfRectangles;
         }
+
     }
 
     /// <summary>
@@ -174,7 +189,9 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
 
         public void UpdatePosition(GameObject gameObject, int width, int height)
         {
-            Rectangle = new Rectangle((int)gameObject.Transform.Position.X + X - width / 2, (int)gameObject.Transform.Position.Y + Y - height / 2, 1, 1);
+            var origin = gameObject.GetComponent<SpriteRenderer>()?.Origin ?? Vector2.Zero;
+
+            Rectangle = new Rectangle((int)(gameObject.Transform.Position.X - origin.X + X),(int)(gameObject.Transform.Position.Y - origin.Y + Y), 1, 1);
         }
     }
 }

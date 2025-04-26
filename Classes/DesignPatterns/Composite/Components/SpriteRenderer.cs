@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SproutLands.Classes.World;
+using System;
 
 
 namespace SproutLands.Classes.DesignPatterns.Composite.Components
@@ -17,6 +18,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         public Texture2D Sprite { get; set; }
         public Color Color { get; set; }
         public Rectangle? SourceRectangle { get; set; }
+        public event Action OnSpriteChanged;
 
         public SpriteRenderer(GameObject gameObject): base(gameObject)
         {
@@ -31,6 +33,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         {
             Sprite = GameWorld.Instance.Content.Load<Texture2D>(spriteName);
             SourceRectangle = sourceRectangle;
+            OnSpriteChanged?.Invoke();
         }
 
         /// <summary>
@@ -40,12 +43,17 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         {
             if (SourceRectangle.HasValue)
             {
-                Origin = new Vector2(SourceRectangle.Value.Width / 2f - 30, SourceRectangle.Value.Height / 2f - 30);
+                Origin = new Vector2(SourceRectangle.Value.Width / 2f, SourceRectangle.Value.Height / 2f);
             }
             else
             {
                 Origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
             }
+        }
+
+        public void InvokeOnSpriteChanged()
+        {
+            OnSpriteChanged?.Invoke();
         }
 
         /// <summary>

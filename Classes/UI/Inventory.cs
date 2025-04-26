@@ -91,7 +91,7 @@ namespace SproutLands.Classes.UI
 
                     if (slot.StoredItem != null)
                     {
-                        spriteBatch.Draw(slot.StoredItem.Icon, slot.SlotSource, Color.White);
+                        spriteBatch.Draw(slot.StoredItem.Icon, new Rectangle((int)drawPosition.X + 25, (int)drawPosition.Y + 20, 42, 42), Color.White);
                     }
                 }
             }
