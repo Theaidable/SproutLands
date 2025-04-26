@@ -6,13 +6,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil
         //Property til at tilgå jords nuværende state
         public ISoilState CurrentState { get; private set; }
 
-        /// <summary>
-        /// Tom Constructor som skal være der, da soil er en component
-        /// </summary>
-        /// <param name="gameObject"></param>
-        public Soil(GameObject gameObject) : base(gameObject)
-        {
-        }
+        public Soil(GameObject gameObject) : base(gameObject) { }
 
         /// <summary>
         /// Metode til at sætte jordens tilstand

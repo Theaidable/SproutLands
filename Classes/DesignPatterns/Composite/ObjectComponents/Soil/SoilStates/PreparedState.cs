@@ -38,7 +38,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.ObjectComponents.Soil.Soi
             var spriteRenderer = soil.GameObject.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null)
             {
-                spriteRenderer.SetSprite("Assets/Sprites/Tilesets/Grass", sourceRectangle);
+                spriteRenderer.SetSprite("Assets/Sprites/Tilesets/Tilled_Dirt_Wide_v2", sourceRectangle);
             }
             else
             {
