@@ -1,3 +1,3 @@
-﻿
-using var game = new SproutLands.GameWorld();
-game.Run();
+﻿using SproutLands;
+
+GameWorld.Instance.Run();
