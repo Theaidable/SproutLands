@@ -11,7 +11,6 @@ namespace SproutLands.Classes.Items
 {
     public class Axe : Item
     {
-        private Animator animator;
         private int damage;
 
         public Axe(Texture2D icon)
@@ -22,9 +21,11 @@ namespace SproutLands.Classes.Items
 
         public override void Use(Player player)
         {
+            player.PlayUseToolAnimation();
+
             Collider playerCollider = player.GameObject.GetComponent<Collider>();
 
-            if(playerCollider == null)
+            if (playerCollider == null)
             {
                 Debug.WriteLine("Player has no collider");
             }

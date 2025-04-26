@@ -7,6 +7,7 @@ using SproutLands.Classes.DesignPatterns.Composite.Components;
 using SproutLands.Classes.Items;
 using SproutLands.Classes.UI;
 using SproutLands.Classes.World;
+using System.Diagnostics;
 
 
 namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
@@ -41,7 +42,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         public Player(GameObject gameObject): base(gameObject)
         {
             MovementSpeed = 200f;
-            moveDirection = Vector2.Zero;
+            moveDirection = Vector2.One;
         }
 
         public override void Start()
@@ -63,6 +64,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         public void EquipItem(Item item)
         {
             EquippedItem = item;
+            Debug.WriteLine($"Equipped item: {item.GetType().Name}");
         }
 
         private void AddAnimations()
@@ -80,10 +82,10 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             idleRightFrames = LoadFrames("Assets/CharacterSprites/IdleSprites/IdleRight", 2);
 
             //Use Axe
-            useAxeUpFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeUp", 2);
-            useAxeDownFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeDown", 2);
-            useAxeLeftFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeLeft", 2);
-            useAxeRightFrames = LoadFrames("Assets/CharacterSprites/ActionsSprites/Axe/AxeRight", 2);
+            useAxeUpFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeUp", 2);
+            useAxeDownFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeDown", 2);
+            useAxeLeftFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeLeft", 2);
+            useAxeRightFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeRight", 2);
 
 
             //Tilføj walking animationer
@@ -155,24 +157,28 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
         }
 
-        public void PlayUseToolAnimation(Vector2 direction)
+        public void PlayUseToolAnimation()
         {
-            if(direction.Y < 0)
+            animator.ClearOnAnimationComplete();
+
+            if (moveDirection.Y < 0)
             {
                 animator.PlayAnimation("UseAxeUp");
             }
-            else if (direction.Y > 0)
+            else if (moveDirection.Y > 0)
             {
                 animator.PlayAnimation("UseAxeDown");
             }
-            else if (direction.X < 0)
+            else if (moveDirection.X < 0)
             {
                 animator.PlayAnimation("UseAxeLeft");
             }
-            else if(direction.X > 0)
+            else if(moveDirection.X > 0)
             {
                 animator.PlayAnimation("UseAxeRight");
             }
+
+            animator.OnAnimationComplete = Stop;
         }
 
         public void Stop()

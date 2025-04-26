@@ -106,18 +106,17 @@ public class GameWorld : Game, ISubject
         GameObject playerObject = PlayerFactory.Instance.Create(new Vector2(15 * 64, 13 * 64));
         GameObjects.Add(playerObject);
 
-        Hudbar hudbar = playerObject.GetComponent<Hudbar>();
+        foreach (GameObject gameObject in GameObjects)
+        {
+            gameObject.Start();
+        }
 
-        if(hudbar != null)
+        Hudbar hudbar = playerObject.GetComponent<Hudbar>();
+        if (hudbar != null)
         {
             Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe/Axe");
             Axe axe = new Axe(axeIcon);
             hudbar.AddItemToHud(axe);
-        }
-
-        foreach (GameObject gameObject in GameObjects)
-        {
-            gameObject.Start();
         }
     }
 
