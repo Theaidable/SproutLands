@@ -7,8 +7,9 @@ using SproutLands.Classes.ComponentPattern.Items;
 
 namespace SproutLands.Classes.Playeren.Tools
 {
-    public class Tool : Item
+    public abstract class Tool : Item
     {
-        // Kan udvidse med ToolType her hvis vi vil differentiere værktøjer
+        public abstract void Use(Player player);
     }
+
 }

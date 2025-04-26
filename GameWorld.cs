@@ -133,7 +133,7 @@ public class GameWorld : Game
         Player.AddItemToHud(0, axe);
         Debug.WriteLine($"Axe icon: {axe.Icon}");
 
-        var hoeIcon = Content.Load<Texture2D>("Assets/Sprites/Objects/Hoe"); // hvis du har et sprite
+        var hoeIcon = Content.Load<Texture2D>("Assets/Sprites/Objects/Hoe");
         var hoe = new Hoe(hoeIcon);
         Player.AddItemToInventory(hoe);
         Player.AddItemToHud(1, hoe);
