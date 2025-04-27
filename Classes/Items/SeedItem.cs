@@ -15,6 +15,7 @@ namespace SproutLands.Classes.Items
         public SeedItem(Texture2D icon)
         {
             Icon = icon;
+            DisplayName = "Seed";
         }
 
         public override void Use(Player player)

@@ -25,6 +25,9 @@ public class GameWorld : Game, ISubject
     private SpriteBatch _spriteBatch;
     private Song backgroundMusic;
     private static GameWorld instance;
+    public Player Player { get; private set; }
+
+
 
     //Oprettelse af Singleton af GameWorld
     public static GameWorld Instance
@@ -116,6 +119,8 @@ public class GameWorld : Game, ISubject
         GameObject playerObject = PlayerFactory.Instance.Create(new Vector2(15 * 64, 13 * 64));
         GameObjects.Add(playerObject);
 
+        Player = playerObject.GetComponent<Player>();
+
         foreach (GameObject gameObject in GameObjects)
         {
             gameObject.Start();
@@ -182,6 +187,12 @@ public class GameWorld : Game, ISubject
         foreach (GameObject gameObject in GameObjects)
         {
             gameObject.Draw(_spriteBatch);
+        }
+
+        // Tegn spillerens UI bagefter
+        if (Player != null)
+        {
+            Player.Draw(_spriteBatch);
         }
 
         _spriteBatch.End();

@@ -21,6 +21,11 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         private float cooldownTimer = 0f;
         private bool isUsingItem = false;
 
+        //Info message
+        private string infoMessage = "";
+        private float infoMessageTimer = 0f;
+        private SpriteFont font;
+
         //Walk animation frames
         private Texture2D[] walkUpFrames;
         private Texture2D[] walkDownFrames;
@@ -58,6 +63,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         {
             animator = GameObject.GetComponent<Animator>();
             inventory = GameObject.GetComponent<Inventory>();
+            font = GameWorld.Instance.Content.Load<SpriteFont>("Assets/Fonts/Default");
             AddAnimations();
             BindCommands();
             animator.PlayAnimation("IdleDown");
@@ -69,6 +75,14 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             {
                 cooldownTimer -= GameWorld.Instance.DeltaTime;
             }
+
+            if (infoMessageTimer > 0)
+                infoMessageTimer -= GameWorld.Instance.DeltaTime;
+        }
+        public void ShowInfoMessage(string message, float duration = 2f)
+        {
+            infoMessage = message;
+            infoMessageTimer = duration;
         }
 
         public void Move(Vector2 direction)
@@ -95,7 +109,9 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
 
             EquippedItem = item;
-            Debug.WriteLine($"Equipped item: {item.GetType().Name}");
+            Debug.WriteLine($"Equipped item: {item.DisplayName}");
+
+            ShowInfoMessage($"Equipped {item.DisplayName}");
         }
 
         public bool CanUseTool()
@@ -135,7 +151,20 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
                 };
             }
         }
-            
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (infoMessageTimer > 0 && font != null)
+            {
+                Vector2 playerPosition = GameObject.Transform.Position;
+                Vector2 textSize = font.MeasureString(infoMessage);
+
+                Vector2 messagePosition = playerPosition - new Vector2(textSize.X / 2, 40);
+
+                spriteBatch.DrawString(font, infoMessage, messagePosition, Color.Black);
+            }
+        }
+
 
         private void AddAnimations()
         {

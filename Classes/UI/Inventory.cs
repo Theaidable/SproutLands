@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SproutLands.Classes.DesignPatterns.Composite;
+using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
 using SproutLands.Classes.DesignPatterns.Observer;
 using SproutLands.Classes.Items;
 using SproutLands.Classes.World;
@@ -60,6 +61,13 @@ namespace SproutLands.Classes.UI
                 if (slot.StoredItem == null)
                 {
                     slot.AddItem(item);
+
+                    Player player = GameWorld.Instance.Player;
+                    if (player != null)
+                    {
+                        player.ShowInfoMessage($"Picked up {item.DisplayName}!");
+                    }
+
                     break;
                 }
             }

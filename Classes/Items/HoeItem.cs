@@ -17,6 +17,7 @@ namespace SproutLands.Classes.Items
         public HoeItem(Texture2D icon)
         {
             Icon = icon;
+            DisplayName = "Hoe";
         }
 
         public override void Use(Player player)

@@ -16,6 +16,7 @@ namespace SproutLands.Classes.Items
         public AxeItem(Texture2D icon)
         {
             Icon = icon;
+            DisplayName = "Axe";
             damage = 50;
         }
 

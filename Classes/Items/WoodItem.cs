@@ -9,6 +9,7 @@ namespace SproutLands.Classes.Items
         public WoodItem(Texture2D icon)
         {
             Icon = icon;
+            DisplayName = "Wood";
         }
 
         public override void Use(Player player)

@@ -8,6 +8,7 @@ namespace SproutLands.Classes.Items
         public CropItem(Texture2D icon)
         {
             Icon = icon;
+            DisplayName = "Crop";
         }
 
         public override void Use(Player player)
