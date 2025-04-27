@@ -33,7 +33,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
             {
                 IsChopped = true;
                 DropRessources();
-                GameWorld.Instance.GameObjects.Remove(GameObject);
+                GameWorld.Instance.QueueRemove(GameObject);
             }
         }
 
@@ -54,12 +54,8 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees
             }
 
             Texture2D woodIcon = GameWorld.Instance.Content.Load<Texture2D>("Assets/ItemSprites/BigLog");
-
-            for (int i = 0; i < 5; i++)
-            {
-                WoodItem wood = new WoodItem(woodIcon);
-                inventory.AddItemToInventory(wood);
-            }
+            WoodItem wood = new WoodItem(woodIcon);
+            inventory.AddItemToInventory(wood);
         }
     }
 }

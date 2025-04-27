@@ -63,10 +63,13 @@ public class GameWorld : Game, ISubject
 
     //Lister
     public List<GameObject> GameObjects { get; private set; } = new List<GameObject>();
+    private List<GameObject> objectsToRemove = new List<GameObject>();
     private readonly List<IObserver> listeners = new List<IObserver>();
 
     //Deltatime property
     public float DeltaTime { get; private set; }
+
+    public Texture2D Pixel { get; private set; }
 
     //Private Constructor, da vi gøre brug af singleton
     private GameWorld()
@@ -98,6 +101,9 @@ public class GameWorld : Game, ISubject
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        Pixel = new Texture2D(GraphicsDevice, 1, 1);
+        Pixel.SetData(new[] { Color.White });
 
         CreateLevel();
         SpawnTrees();
@@ -139,7 +145,18 @@ public class GameWorld : Game, ISubject
             gameObject.Update();
         }
 
+        foreach (var obj in objectsToRemove)
+        {
+            GameObjects.Remove(obj);
+        }
+        objectsToRemove.Clear();
+
         base.Update(gameTime);
+    }
+
+    public void QueueRemove(GameObject obj)
+    {
+        objectsToRemove.Add(obj);
     }
 
     protected override void Draw(GameTime gameTime)

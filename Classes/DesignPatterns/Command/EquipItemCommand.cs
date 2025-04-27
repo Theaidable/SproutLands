@@ -26,6 +26,7 @@ namespace SproutLands.Classes.DesignPatterns.Command
                 if(slot.StoredItem != null)
                 {
                     player.EquipItem(slot.StoredItem);
+                    hudbar.SelectedSlotIndex = slotIndex;
                 }
             }
         }

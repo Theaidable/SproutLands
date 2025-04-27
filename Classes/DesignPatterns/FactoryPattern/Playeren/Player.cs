@@ -14,9 +14,11 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 {
     public class Player : Component
     {
-        private Vector2 moveDirection;
         private Animator animator;
         private Inventory inventory;
+        private Vector2 moveDirection;
+        private float toolCooldown = 0.5f;
+        private float cooldownTimer = 0f;
 
         //Walk animation frames
         private Texture2D[] walkUpFrames;
@@ -60,6 +62,14 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             animator.PlayAnimation("IdleDown");
         }
 
+        public override void Update()
+        {
+            if(cooldownTimer > 0)
+            {
+                cooldownTimer -= GameWorld.Instance.DeltaTime;
+            }
+        }
+
         public void Move(Vector2 direction)
         {
             moveDirection = direction;
@@ -71,6 +81,37 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         {
             EquippedItem = item;
             Debug.WriteLine($"Equipped item: {item.GetType().Name}");
+        }
+
+        public bool CanUseTool()
+        {
+            return cooldownTimer <= 0f;
+        }
+
+        public void UseEquippedItem()
+        {
+            if (EquippedItem != null && cooldownTimer <= 0f)
+            {
+                animator.ClearOnAnimationComplete();
+
+                //Find ud af hvilken animation vi skal spille
+                if (EquippedItem is Axe)
+                {
+                    PlayUseAxeAnimation();
+                }
+                else if (EquippedItem is Hoe)
+                {
+                    PlayUseHoeAnimation();
+                }
+
+                //Når animationen er færdig, så udfør selve brugen
+                animator.OnAnimationComplete = () =>
+                {
+                    EquippedItem.Use(this);
+                    cooldownTimer = toolCooldown;
+                    Stop(); //Gå tilbage til idle animation bagefter
+                };
+            }
         }
 
         private void AddAnimations()
@@ -174,52 +215,38 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
         }
 
-        public void PlayUseAxeAnimation()
+        private void PlayUseToolAnimation(string baseAnimationName)
         {
             animator.ClearOnAnimationComplete();
 
             if (moveDirection.Y < 0)
             {
-                animator.PlayAnimation("UseAxeUp");
+                animator.PlayAnimation($"{baseAnimationName}Up");
             }
             else if (moveDirection.Y > 0)
             {
-                animator.PlayAnimation("UseAxeDown");
+                animator.PlayAnimation($"{baseAnimationName}Down");
             }
             else if (moveDirection.X < 0)
             {
-                animator.PlayAnimation("UseAxeLeft");
+                animator.PlayAnimation($"{baseAnimationName}Left");
             }
-            else if(moveDirection.X > 0)
+            else if (moveDirection.X > 0)
             {
-                animator.PlayAnimation("UseAxeRight");
+                animator.PlayAnimation($"{baseAnimationName}Right");
             }
 
             animator.OnAnimationComplete = Stop;
         }
 
+        public void PlayUseAxeAnimation()
+        {
+            PlayUseToolAnimation("UseAxe");
+        }
+
         public void PlayUseHoeAnimation()
         {
-            animator.ClearOnAnimationComplete();
-
-            if (moveDirection.Y < 0)
-            {
-                animator.PlayAnimation("UseHoeUp");
-            }
-            else if (moveDirection.Y > 0)
-            {
-                animator.PlayAnimation("UseHoeDown");
-            }
-            else if (moveDirection.X < 0)
-            {
-                animator.PlayAnimation("UseHoeLeft");
-            }
-            else if (moveDirection.X > 0)
-            {
-                animator.PlayAnimation("UseHoeRight");
-            }
-
-            animator.OnAnimationComplete = Stop;
+            PlayUseToolAnimation("UseHoe");
         }
 
         public void Stop()

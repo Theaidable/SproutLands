@@ -15,9 +15,9 @@ namespace SproutLands.Classes.DesignPatterns.Command
 
         public void Execute()
         {
-            if (player.EquippedItem != null)
+            if (player.CanUseTool())
             {
-                player.EquippedItem.Use(player);
+                player.UseEquippedItem();
             }
         }
     }

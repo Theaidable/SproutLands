@@ -11,6 +11,7 @@ namespace SproutLands.Classes.UI
     public class Hudbar : Component, IObserver
     {
         public bool ShowHudbar { get; set; } = true;
+        public int SelectedSlotIndex { get; set; } = -1;
         public List<ItemSlot> HudSlots { get; private set; } = new List<ItemSlot>();
 
         private int slotCount = 9;
