@@ -505,7 +505,7 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Collider/Pixel.png
 
-#begin Assets/ItemSprites/Axe/Axe.png
+#begin Assets/ItemSprites/Axe.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -515,7 +515,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Assets/ItemSprites/Axe/Axe.png
+/build:Assets/ItemSprites/Axe.png
 
 #begin Assets/ItemSprites/BigLog.png
 /importer:TextureImporter
@@ -540,6 +540,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Assets/ItemSprites/Hoe.png
+
+#begin Assets/ObjectSprites/Crop/Growing_001.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/ObjectSprites/Crop/Growing_001.png
+
+#begin Assets/ObjectSprites/Crop/Growing_002.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/ObjectSprites/Crop/Growing_002.png
+
+#begin Assets/ObjectSprites/Crop/Harvest_000.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/ObjectSprites/Crop/Harvest_000.png
+
+#begin Assets/ObjectSprites/Crop/Seeded_000.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/ObjectSprites/Crop/Seeded_000.png
 
 #begin Assets/Sprites/Characters/Charakter_Actions.png
 /importer:TextureImporter

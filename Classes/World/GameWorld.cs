@@ -121,7 +121,7 @@ public class GameWorld : Game, ISubject
         Hudbar hudbar = playerObject.GetComponent<Hudbar>();
         if (hudbar != null)
         {
-            Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe/Axe");
+            Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe");
             Texture2D hoeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Hoe");
             Texture2D seedIcon = Content.Load<Texture2D>("Assets/ItemSprites/Seed");
 
