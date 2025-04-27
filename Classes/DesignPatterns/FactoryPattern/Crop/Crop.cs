@@ -38,9 +38,9 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Crop
             currentState?.Enter(this);
         }
 
-        public void SetSprite(string spritePath, Rectangle sourceRectangle)
+        public void SetSprite(string spritePath)
         {
-            spriteRenderer.SetSprite(spritePath, sourceRectangle);
+            spriteRenderer.SetSprite(spritePath);
         }
 
         public void Harvest()
