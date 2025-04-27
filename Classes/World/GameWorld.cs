@@ -16,6 +16,7 @@ using SproutLands.Classes.UI;
 using SproutLands.Classes.Items;
 using SproutLands.Classes.DesignPatterns.State.SoilState;
 using SproutLands.Classes.DesignPatterns.State.SoilState.SoilStates;
+using System.Linq;
 
 namespace SproutLands.Classes.World;
 
@@ -194,6 +195,16 @@ public class GameWorld : Game, ISubject
         if (Player != null)
         {
             Player.Draw(_spriteBatch);
+        }
+
+        var playerObject = GameObjects.FirstOrDefault(go => go.GetComponent<Player>() != null);
+        if (playerObject != null)
+        {
+            var inventory = playerObject.GetComponent<Inventory>();
+            if (inventory != null)
+            {
+                inventory.Draw(_spriteBatch);
+            }
         }
 
         if (keybindsImage != null)
