@@ -19,6 +19,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         private Vector2 moveDirection;
         private float toolCooldown = 0.1f;
         private float cooldownTimer = 0f;
+        private bool isUsingItem = false;
 
         //Walk animation frames
         private Texture2D[] walkUpFrames;
@@ -79,6 +80,12 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 
         public void EquipItem(Item item)
         {
+            if (isUsingItem)
+            {
+                Debug.WriteLine("Kan ikke skifte item mens vi bruger et item!");
+                return;
+            }
+
             EquippedItem = item;
             Debug.WriteLine($"Equipped item: {item.GetType().Name}");
         }
@@ -90,41 +97,36 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 
         public void UseEquippedItem()
         {
-            if (EquippedItem != null && cooldownTimer <= 0f)
+            if (EquippedItem != null && cooldownTimer <= 0f && !isUsingItem)
             {
                 animator.ClearOnAnimationComplete();
+                isUsingItem = true;
 
-                //Find ud af hvilken animation vi skal spille
                 if (EquippedItem is AxeItem)
                 {
                     PlayUseAxeAnimation();
-                    //Når animationen er færdig, så udfør selve brugen
-                    animator.OnAnimationComplete = () =>
-                    {
-                        EquippedItem.Use(this);
-                        cooldownTimer = toolCooldown;
-                        Stop(); //Gå tilbage til idle animation bagefter
-                    };
                 }
                 else if (EquippedItem is HoeItem)
                 {
                     PlayUseHoeAnimation();
-                    //Når animationen er færdig, så udfør selve brugen
-                    animator.OnAnimationComplete = () =>
-                    {
-                        EquippedItem.Use(this);
-                        cooldownTimer = toolCooldown;
-                        Stop(); //Gå tilbage til idle animation bagefter
-                    };
                 }
                 else
                 {
                     EquippedItem.Use(this);
                     cooldownTimer = toolCooldown;
-                    Stop();
+                    return;
                 }
+
+                animator.OnAnimationComplete = () =>
+                {
+                    EquippedItem.Use(this);
+                    cooldownTimer = toolCooldown;
+                    Stop();
+                    isUsingItem = false;
+                };
             }
         }
+            
 
         private void AddAnimations()
         {
