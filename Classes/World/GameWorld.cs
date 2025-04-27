@@ -115,8 +115,13 @@ public class GameWorld : Game, ISubject
         if (hudbar != null)
         {
             Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe/Axe");
+            Texture2D hoeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Hoe");
+
             Axe axe = new Axe(axeIcon);
+            Hoe hoe = new Hoe(hoeIcon);
+
             hudbar.AddItemToHud(axe);
+            hudbar.AddItemToHud(hoe);
         }
     }
 

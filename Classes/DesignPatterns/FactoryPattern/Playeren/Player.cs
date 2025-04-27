@@ -36,6 +36,12 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         private Texture2D[] useAxeLeftFrames;
         private Texture2D[] useAxeRightFrames;
 
+        //Use hoe animation frames
+        private Texture2D[] useHoeUpFrames;
+        private Texture2D[] useHoeDownFrames;
+        private Texture2D[] useHoeLeftFrames;
+        private Texture2D[] useHoeRightFrames;
+
         public float MovementSpeed { get; private set; }
         public Item EquippedItem { get; private set; }
 
@@ -87,6 +93,11 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             useAxeLeftFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeLeft", 2);
             useAxeRightFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Axe/AxeRight", 2);
 
+            //Use Hoe
+            useHoeUpFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Hoe/HoeUp", 2);
+            useHoeDownFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Hoe/HoeDown", 2);
+            useHoeLeftFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Hoe/HoeLeft", 2);
+            useHoeRightFrames = LoadFrames("Assets/CharacterSprites/ActionSprites/Hoe/HoeRight", 2);
 
             //Tilføj walking animationer
             animator.AddAnimation(new Animation("WalkUp", 2.5f, true, walkUpFrames));
@@ -105,6 +116,12 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             animator.AddAnimation(new Animation("UseAxeDown", 2.5f, false, useAxeDownFrames));
             animator.AddAnimation(new Animation("UseAxeLeft", 2.5f, false, useAxeLeftFrames));
             animator.AddAnimation(new Animation("UseAxeRight", 2.5f, false, useAxeRightFrames));
+
+            //Tilføj use hoe animationer
+            animator.AddAnimation(new Animation("UseHoeUp", 2.5f, false, useHoeUpFrames));
+            animator.AddAnimation(new Animation("UseHoeDown", 2.5f, false, useHoeDownFrames));
+            animator.AddAnimation(new Animation("UseHoeLeft", 2.5f, false, useHoeLeftFrames));
+            animator.AddAnimation(new Animation("UseHoeRight", 2.5f, false, useHoeRightFrames));
         }
 
         private Texture2D[] LoadFrames(string basePath, int frameCount)
@@ -157,7 +174,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             }
         }
 
-        public void PlayUseToolAnimation()
+        public void PlayUseAxeAnimation()
         {
             animator.ClearOnAnimationComplete();
 
@@ -176,6 +193,30 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             else if(moveDirection.X > 0)
             {
                 animator.PlayAnimation("UseAxeRight");
+            }
+
+            animator.OnAnimationComplete = Stop;
+        }
+
+        public void PlayUseHoeAnimation()
+        {
+            animator.ClearOnAnimationComplete();
+
+            if (moveDirection.Y < 0)
+            {
+                animator.PlayAnimation("UseHoeUp");
+            }
+            else if (moveDirection.Y > 0)
+            {
+                animator.PlayAnimation("UseHoeDown");
+            }
+            else if (moveDirection.X < 0)
+            {
+                animator.PlayAnimation("UseHoeLeft");
+            }
+            else if (moveDirection.X > 0)
+            {
+                animator.PlayAnimation("UseHoeRight");
             }
 
             animator.OnAnimationComplete = Stop;

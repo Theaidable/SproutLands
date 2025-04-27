@@ -21,7 +21,7 @@ namespace SproutLands.Classes.Items
 
         public override void Use(Player player)
         {
-            player.PlayUseToolAnimation();
+            player.PlayUseAxeAnimation();
 
             Collider playerCollider = player.GameObject.GetComponent<Collider>();
 
