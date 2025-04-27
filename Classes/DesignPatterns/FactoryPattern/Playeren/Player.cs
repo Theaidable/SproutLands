@@ -73,6 +73,14 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
 
         public void Move(Vector2 direction)
         {
+            if (isUsingItem)
+            {
+                Debug.WriteLine("Annullerer brug af item pga. bevægelse.");
+                isUsingItem = false;
+                animator.ClearOnAnimationComplete();
+                Stop();
+            }
+
             moveDirection = direction;
             GameObject.Transform.Translate(direction * MovementSpeed * GameWorld.Instance.DeltaTime);
             PlayWalkAnimation(direction);
@@ -114,6 +122,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
                 {
                     EquippedItem.Use(this);
                     cooldownTimer = toolCooldown;
+                    isUsingItem = false;
                     return;
                 }
 
@@ -167,16 +176,16 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
             animator.AddAnimation(new Animation("IdleRight", 2.5f, true, idleRightFrames));
 
             //Tilføj use axe animationer
-            animator.AddAnimation(new Animation("UseAxeUp", 2.5f, false, useAxeUpFrames));
-            animator.AddAnimation(new Animation("UseAxeDown", 2.5f, false, useAxeDownFrames));
-            animator.AddAnimation(new Animation("UseAxeLeft", 2.5f, false, useAxeLeftFrames));
-            animator.AddAnimation(new Animation("UseAxeRight", 2.5f, false, useAxeRightFrames));
+            animator.AddAnimation(new Animation("UseAxeUp", 5f, false, useAxeUpFrames));
+            animator.AddAnimation(new Animation("UseAxeDown", 5f, false, useAxeDownFrames));
+            animator.AddAnimation(new Animation("UseAxeLeft", 5f, false, useAxeLeftFrames));
+            animator.AddAnimation(new Animation("UseAxeRight", 5f, false, useAxeRightFrames));
 
             //Tilføj use hoe animationer
-            animator.AddAnimation(new Animation("UseHoeUp", 2.5f, false, useHoeUpFrames));
-            animator.AddAnimation(new Animation("UseHoeDown", 2.5f, false, useHoeDownFrames));
-            animator.AddAnimation(new Animation("UseHoeLeft", 2.5f, false, useHoeLeftFrames));
-            animator.AddAnimation(new Animation("UseHoeRight", 2.5f, false, useHoeRightFrames));
+            animator.AddAnimation(new Animation("UseHoeUp", 5f, false, useHoeUpFrames));
+            animator.AddAnimation(new Animation("UseHoeDown", 5f, false, useHoeDownFrames));
+            animator.AddAnimation(new Animation("UseHoeLeft", 5f, false, useHoeLeftFrames));
+            animator.AddAnimation(new Animation("UseHoeRight", 5f, false, useHoeRightFrames));
         }
 
         private Texture2D[] LoadFrames(string basePath, int frameCount)
