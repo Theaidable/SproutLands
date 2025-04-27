@@ -24,6 +24,7 @@ public class GameWorld : Game, ISubject
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Song backgroundMusic;
+    private Texture2D keybindsImage;
     private static GameWorld instance;
     public Player Player { get; private set; }
 
@@ -109,6 +110,7 @@ public class GameWorld : Game, ISubject
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        keybindsImage = Content.Load<Texture2D>("Assets/UI/Keybinds");
         Pixel = new Texture2D(GraphicsDevice, 1, 1);
         Pixel.SetData(new[] { Color.White });
 
@@ -188,11 +190,16 @@ public class GameWorld : Game, ISubject
         {
             gameObject.Draw(_spriteBatch);
         }
-
-        // Tegn spillerens UI bagefter
+        
         if (Player != null)
         {
             Player.Draw(_spriteBatch);
+        }
+
+        if (keybindsImage != null)
+        {
+            _spriteBatch.Draw(keybindsImage, new Vector2(50, 50), Color.White);
+            // (du kan flytte det rundt med Vector2 hvis det skal være et andet sted)
         }
 
         _spriteBatch.End();
