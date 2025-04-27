@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.Observer;
@@ -21,6 +23,7 @@ public class GameWorld : Game, ISubject
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private Song backgroundMusic;
     private static GameWorld instance;
 
     //Oprettelse af Singleton af GameWorld
@@ -133,6 +136,13 @@ public class GameWorld : Game, ISubject
             hudbar.AddItemToHud(hoe);
             hudbar.AddItemToHud(seed);
         }
+        
+        backgroundMusic = Content.Load<Song>("Assets/Music/BGM/Cuddle_Clouds");
+
+        MediaPlayer.IsRepeating = true; // Gentag musikken automatisk
+        MediaPlayer.Volume = 0.7f; // Lydstyrke mellem 0.0f og 1.0f
+        MediaPlayer.Play(backgroundMusic);
+
     }
 
     protected override void Update(GameTime gameTime)
