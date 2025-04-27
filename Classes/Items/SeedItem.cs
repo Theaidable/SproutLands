@@ -38,6 +38,7 @@ namespace SproutLands.Classes.Items
                         Debug.WriteLine("Used SeedItem");
                         GameObject crop = CropFactory.Instance.Create(soilPosition);
                         GameWorld.Instance.GameObjects.Add(crop);
+                        crop.Start();
                         break; 
                     }
                 }

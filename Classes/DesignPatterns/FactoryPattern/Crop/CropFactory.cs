@@ -30,6 +30,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Crop
             var spriteRenderer = cropObject.AddComponent<SpriteRenderer>();
             var collider = cropObject.AddComponent<Collider>();
             var crop = cropObject.AddComponent<Crop>();
+            spriteRenderer.SetSprite("Assets/ObjectSprites/Crop/Seeded_000");
 
             return cropObject;
         }

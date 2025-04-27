@@ -17,7 +17,7 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
         private Animator animator;
         private Inventory inventory;
         private Vector2 moveDirection;
-        private float toolCooldown = 0.5f;
+        private float toolCooldown = 0.1f;
         private float cooldownTimer = 0f;
 
         //Walk animation frames

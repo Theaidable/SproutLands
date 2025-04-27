@@ -10,7 +10,7 @@ namespace SproutLands.Classes.DesignPatterns.State.CropState.CropStates
 
         public void Enter(Crop crop)
         {
-            crop.SetSprite("Assets/ObjectSprites/Crop/Growing_000");
+            crop.SetSprite("Assets/ObjectSprites/Crop/Growing_001");
             growTimer = 5f;
         }
 
@@ -20,7 +20,7 @@ namespace SproutLands.Classes.DesignPatterns.State.CropState.CropStates
 
             if(growTimer <= 2.5f && growTimer > 0)
             {
-                crop.SetSprite("Assets/ObjectSprites/Crop/Growing_001");
+                crop.SetSprite("Assets/ObjectSprites/Crop/Growing_002");
             }
 
             if(growTimer <= 0)
