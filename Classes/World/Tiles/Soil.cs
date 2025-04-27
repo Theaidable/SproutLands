@@ -1,4 +1,5 @@
 ﻿using SproutLands.Classes.DesignPatterns.Composite;
+using SproutLands.Classes.DesignPatterns.State.SoilState;
 
 namespace SproutLands.Classes.World.Tiles
 {
@@ -16,7 +17,7 @@ namespace SproutLands.Classes.World.Tiles
         public void SetState(ISoilState newState)
         {
             CurrentState = newState;
-            CurrentState.SetType(this);
+            CurrentState.Enter(this);
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace SproutLands.Classes.World.Tiles
         {
             if (CurrentState != null)
             {
-                CurrentState.Update();
+                CurrentState.Update(this);
             }
         }
     }

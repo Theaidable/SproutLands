@@ -62,6 +62,11 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (Sprite == null)
+            {
+                return;
+            }
+
             spriteBatch.Draw(Sprite, GameObject.Transform.Position, SourceRectangle, Color, GameObject.Transform.Rotation, Origin, GameObject.Transform.Scale, SpriteEffects.None, 0);
         }
     }

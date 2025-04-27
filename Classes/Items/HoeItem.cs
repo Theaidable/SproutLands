@@ -2,17 +2,17 @@
 using Microsoft.Xna.Framework.Graphics;
 using SproutLands.Classes.DesignPatterns.Composite;
 using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
+using SproutLands.Classes.DesignPatterns.State.SoilState.SoilStates;
 using SproutLands.Classes.World;
 using SproutLands.Classes.World.Tiles;
-using SproutLands.Classes.World.Tiles.SoilStates;
 using System.Diagnostics;
 
 
 namespace SproutLands.Classes.Items
 {
-    public class Hoe : Item
+    public class HoeItem : Item
     {
-        public Hoe(Texture2D icon)
+        public HoeItem(Texture2D icon)
         {
             Icon = icon;
         }

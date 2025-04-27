@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
+using SproutLands.Classes.World.Tiles;
+using SproutLands.Classes.DesignPatterns.State.SoilState;
 
-namespace SproutLands.Classes.World.Tiles.SoilStates
+namespace SproutLands.Classes.DesignPatterns.State.SoilState.SoilStates
 {
     /// <summary>
     /// Enum til at bestemme hvilken type prepared jord der skal bruges
@@ -30,7 +32,7 @@ namespace SproutLands.Classes.World.Tiles.SoilStates
             this.type = type;
         }
 
-        public void SetType(Soil soil)
+        public void Enter(Soil soil)
         {
             sourceRectangle = preparedRectangles[type];
 
@@ -45,6 +47,7 @@ namespace SproutLands.Classes.World.Tiles.SoilStates
             }
         }
 
-        public void Update() { }
+        public void Update(Soil soil) { }
+        public void Exit(Soil soil) { }
     }
 }

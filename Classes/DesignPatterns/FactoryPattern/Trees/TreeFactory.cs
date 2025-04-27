@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using SproutLands.Classes.DesignPatterns.Composite;
-using System.DirectoryServices;
 using SproutLands.Classes.DesignPatterns.Composite.Components;
 
 namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Trees

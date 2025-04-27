@@ -95,22 +95,34 @@ namespace SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren
                 animator.ClearOnAnimationComplete();
 
                 //Find ud af hvilken animation vi skal spille
-                if (EquippedItem is Axe)
+                if (EquippedItem is AxeItem)
                 {
                     PlayUseAxeAnimation();
+                    //Når animationen er færdig, så udfør selve brugen
+                    animator.OnAnimationComplete = () =>
+                    {
+                        EquippedItem.Use(this);
+                        cooldownTimer = toolCooldown;
+                        Stop(); //Gå tilbage til idle animation bagefter
+                    };
                 }
-                else if (EquippedItem is Hoe)
+                else if (EquippedItem is HoeItem)
                 {
                     PlayUseHoeAnimation();
+                    //Når animationen er færdig, så udfør selve brugen
+                    animator.OnAnimationComplete = () =>
+                    {
+                        EquippedItem.Use(this);
+                        cooldownTimer = toolCooldown;
+                        Stop(); //Gå tilbage til idle animation bagefter
+                    };
                 }
-
-                //Når animationen er færdig, så udfør selve brugen
-                animator.OnAnimationComplete = () =>
+                else
                 {
                     EquippedItem.Use(this);
                     cooldownTimer = toolCooldown;
-                    Stop(); //Gå tilbage til idle animation bagefter
-                };
+                    Stop();
+                }
             }
         }
 

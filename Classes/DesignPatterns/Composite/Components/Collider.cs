@@ -51,7 +51,7 @@ namespace SproutLands.Classes.DesignPatterns.Composite.Components
         /// </summary>
         public override void Update()
         {
-            if (pixelPerfectRectangles.IsValueCreated)
+            if (spriteRenderer?.Sprite != null && pixelPerfectRectangles.IsValueCreated)
             {
                 UpdatePixelCollider();
             }

@@ -10,9 +10,10 @@ using SproutLands.Classes.DesignPatterns.FactoryPattern.Trees;
 using SproutLands.Classes.DesignPatterns.FactoryPattern.Playeren;
 using SproutLands.Classes.DesignPatterns.Command;
 using SproutLands.Classes.World.Tiles;
-using SproutLands.Classes.World.Tiles.SoilStates;
 using SproutLands.Classes.UI;
 using SproutLands.Classes.Items;
+using SproutLands.Classes.DesignPatterns.State.SoilState;
+using SproutLands.Classes.DesignPatterns.State.SoilState.SoilStates;
 
 namespace SproutLands.Classes.World;
 
@@ -122,12 +123,15 @@ public class GameWorld : Game, ISubject
         {
             Texture2D axeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Axe/Axe");
             Texture2D hoeIcon = Content.Load<Texture2D>("Assets/ItemSprites/Hoe");
+            Texture2D seedIcon = Content.Load<Texture2D>("Assets/ItemSprites/Seed");
 
-            Axe axe = new Axe(axeIcon);
-            Hoe hoe = new Hoe(hoeIcon);
+            AxeItem axe = new AxeItem(axeIcon);
+            HoeItem hoe = new HoeItem(hoeIcon);
+            SeedItem seed = new SeedItem(seedIcon);
 
             hudbar.AddItemToHud(axe);
             hudbar.AddItemToHud(hoe);
+            hudbar.AddItemToHud(seed);
         }
     }
 

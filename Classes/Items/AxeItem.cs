@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace SproutLands.Classes.Items
 {
-    public class Axe : Item
+    public class AxeItem : Item
     {
         private int damage;
 
-        public Axe(Texture2D icon)
+        public AxeItem(Texture2D icon)
         {
             Icon = icon;
             damage = 50;
